@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { ArrowLeft, Menu, ChevronRight, CheckCircle, CreditCard, Phone, Mail } from 'lucide-react'
 import Link from 'next/link'
@@ -8,7 +8,7 @@ import Sidebar from '@/components/Sidebar'
 
 type TabType = 'info' | 'faqs' | 'contact'
 
-export default function HelpPage() {
+function HelpContent() {
   const searchParams = useSearchParams()
   const initialTab = searchParams.get('tab') as TabType || 'info'
   const [activeTab, setActiveTab] = useState<TabType>(initialTab)
@@ -261,5 +261,13 @@ export default function HelpPage() {
         />
       </div>
     </motion.div>
+  )
+}
+
+export default function HelpPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HelpContent />
+    </Suspense>
   )
 } 

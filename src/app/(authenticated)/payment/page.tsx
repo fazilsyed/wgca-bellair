@@ -3,7 +3,7 @@ import { useSearchParams, useRouter } from 'next/navigation'
 import { ArrowLeft, Menu, Car, ChevronRight, PenLine } from 'lucide-react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import Sidebar from '@/components/Sidebar'
 
 // Add this interface
@@ -14,7 +14,8 @@ interface CartItem {
   price: number;
 }
 
-export default function PaymentPage() {
+// Create a component that uses useSearchParams
+function PaymentContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const type = searchParams.get('type')
@@ -249,4 +250,13 @@ export default function PaymentPage() {
       </div>
     </motion.div>
   )
+}
+
+// Main page component
+export default function PaymentPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PaymentContent />
+    </Suspense>
+  );
 } 
