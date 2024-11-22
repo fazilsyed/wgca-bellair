@@ -4,16 +4,34 @@ import { ArrowLeft, Mail, Lock, Eye } from 'lucide-react'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
+import { useAuth } from '@/context/AuthContext'
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false)
-  const [email, setEmail] = useState('isabel@whispering.ai')
-  const [password, setPassword] = useState('password')
+  const [formData, setFormData] = useState({
+    email: "isabel@whispering.ai",
+    password: "password"
+  });
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
+  const { signIn } = useAuth()
 
-  const handleSignIn = () => {
-    if (email && password) {
+  const handleSignIn = async () => {
+    if (!formData.email || !formData.password) {
+      setError('Please fill in all fields')
+      return
+    }
+
+    try {
+      setError('')
+      setLoading(true)
+      await signIn(formData.email, formData.password)
       router.push('/home')
+    } catch (error) {
+      setError('Invalid email or password')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -49,16 +67,26 @@ export default function SignIn() {
           variants={itemVariants}
           className="relative pt-4 pb-8"
         >
-          <motion.div
-            whileHover={{ x: -3 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Link href="/" className="absolute left-0 top-5">
+          <Link href="/" className="absolute left-0 top-5">
+            <motion.div
+              whileHover={{ x: -4 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            >
               <ArrowLeft className="w-6 h-6" />
-            </Link>
-          </motion.div>
+            </motion.div>
+          </Link>
           <h1 className="text-center text-2xl font-semibold">Sign In</h1>
         </motion.div>
+
+        {/* Add error message display */}
+        {error && (
+          <motion.div 
+            variants={itemVariants}
+            className="mb-4 p-3 text-sm text-red-500 bg-red-100 rounded-lg"
+          >
+            {error}
+          </motion.div>
+        )}
 
         {/* Form Content */}
         <div className="pb-32">
@@ -79,8 +107,8 @@ export default function SignIn() {
                 <motion.input
                   whileFocus={{ scale: 1.01 }}
                   type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={formData.email}
+                  onChange={(e) => setFormData(prev => ({...prev, email: e.target.value}))}
                   className="w-full bg-gray-50 pl-10 pr-4 py-3 rounded-lg transition-shadow duration-200 focus:shadow-md outline-none"
                   placeholder="Enter your email"
                 />
@@ -103,8 +131,8 @@ export default function SignIn() {
                 <motion.input
                   whileFocus={{ scale: 1.01 }}
                   type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={formData.password}
+                  onChange={(e) => setFormData(prev => ({...prev, password: e.target.value}))}
                   className="w-full bg-gray-50 pl-10 pr-12 py-3 rounded-lg transition-shadow duration-200 focus:shadow-md outline-none"
                   placeholder="Enter your password"
                 />
@@ -140,9 +168,10 @@ export default function SignIn() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={handleSignIn}
-            className="w-full bg-[#00A6B2] text-white py-4 rounded-[32px] font-medium text-base"
+            disabled={loading}
+            className="w-full bg-[#00A6B2] text-white py-4 rounded-[32px] font-medium text-base disabled:opacity-70"
           >
-            Sign In
+            {loading ? 'Signing in...' : 'Sign In'}
           </motion.button>
 
           <motion.div 

@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useAuth } from '@/context/AuthContext'
 
 interface SidebarProps {
   isOpen: boolean
@@ -13,10 +14,17 @@ interface SidebarProps {
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const router = useRouter()
+  const { logout } = useAuth()
 
-  const handleSignOut = (e: React.MouseEvent) => {
+  const handleSignOut = async (e: React.MouseEvent) => {
     e.preventDefault()
-    router.push('/')
+    try {
+      await logout()
+      router.push('/')
+      onClose()
+    } catch (error) {
+      console.error('Error signing out:', error)
+    }
   }
 
   const sidebarVariants = {

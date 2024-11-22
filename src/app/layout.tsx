@@ -1,9 +1,8 @@
-import type { Metadata } from "next";
 import { Poppins } from 'next/font/google';
 import localFont from "next/font/local";
 import "./globals.css";
-import ClientLayout from '@/components/ClientLayout';
-import { CartProvider } from '@/context/CartContext'
+import { AuthProvider } from '@/context/AuthContext';
+import ClientLayoutWrapper from './ClientLayoutWrapper';
 
 // Font configurations
 const poppins = Poppins({
@@ -24,7 +23,7 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Bellair Golf Course App",
   description: "Bellair Golf course app",
 };
@@ -39,9 +38,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased text-gray-900`}
       >
-        <CartProvider>
-          <ClientLayout>{children}</ClientLayout>
-        </CartProvider>
+        <AuthProvider>
+          <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
+        </AuthProvider>
       </body>
     </html>
   );
