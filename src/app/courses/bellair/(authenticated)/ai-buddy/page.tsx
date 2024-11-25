@@ -198,7 +198,7 @@ export default function AIBuddyPage() {
           animate={{ y: 0, opacity: 1 }}
           className="flex items-center justify-between p-6 border-b"
         >
-          <Link href="/home">
+          <Link href="/courses/bellair/home">
             <motion.div
               whileHover={{ x: -5 }}
               whileTap={{ scale: 0.95 }}

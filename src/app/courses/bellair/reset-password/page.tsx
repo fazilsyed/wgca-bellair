@@ -32,7 +32,7 @@ export default function ResetPassword() {
 
     // Redirect after 3 seconds
     setTimeout(() => {
-      router.push('/signin')
+      router.push('/courses/bellair/signin')
     }, 3000)
   }
 
@@ -41,7 +41,7 @@ export default function ResetPassword() {
       <main className="w-full max-w-[430px] relative min-h-screen px-6">
         {/* Header */}
         <div className="relative pt-4 pb-8">
-          <Link href="/signin" className="absolute left-0 top-5">
+          <Link href="/courses/bellair/signin" className="absolute left-0 top-5">
             <ArrowLeft className="w-6 h-6" />
           </Link>
           <h1 className="text-center text-2xl font-semibold">Reset Password</h1>

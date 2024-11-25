@@ -47,7 +47,7 @@ export default function HomePage() {
             className="flex justify-between items-center p-6"
           >
             <div className="flex items-center gap-3">
-              <Link href="/profile">
+              <Link href="/courses/bellair/profile">
                 <Image
                   src="/images/isabel-round-avatar.png"
                   alt="Profile"
@@ -94,7 +94,7 @@ export default function HomePage() {
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">Food and Drinks</h2>
               <Link 
-                href="/menu" 
+                href="/courses/bellair/menu" 
                 className="text-[#00A6B2] flex items-center"
               >
                 View All <ChevronRight className="w-4 h-4" />
@@ -124,7 +124,7 @@ export default function HomePage() {
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">Pro Shop Items</h2>
               <Link 
-                href="/pro-shop" 
+                href="/courses/bellair/pro-shop" 
                 className="text-[#00A6B2] flex items-center"
               >
                 View All <ChevronRight className="w-4 h-4" />

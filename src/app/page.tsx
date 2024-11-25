@@ -42,12 +42,12 @@ export default function Home() {
 
             {/* Buttons Container */}
             <div className="flex gap-4 w-full">
-              <Link href="/signup" className="flex-1">
+              <Link href="/courses/bellair/signup" className="flex-1">
                 <button className="w-full py-3.5 rounded-full bg-white text-black font-semibold text-sm">
                   Sign Up
                 </button>
               </Link>
-              <Link href="/signin" className="flex-1">
+              <Link href="/courses/bellair/signin" className="flex-1">
                 <button className="w-full py-3.5 rounded-full bg-[#00A6B2] text-white font-semibold text-sm">
                   Sign In
                 </button>

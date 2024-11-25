@@ -82,15 +82,15 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               {/* Navigation Links */}
               <nav className="px-6 py-4">
                 <ul className="space-y-4">
-                  <NavItem icon={<Home className="w-5 h-5" />} label="Home" href="/home" />
-                  <NavItem icon={<Clock className="w-5 h-5" />} label="Tee Times" href="/tee-times" />
-                  <NavItem icon={<Target className="w-5 h-5" />} label="Driving Range" href="/range" />
-                  <NavItem icon={<Map className="w-5 h-5" />} label="Course Map" href="/course-map" />
-                  <NavItem icon={<GraduationCap className="w-5 h-5" />} label="Lessons" href="/lessons" />
-                  <NavItem icon={<Calendar className="w-5 h-5" />} label="Events" href="/events" />
-                  <NavItem icon={<HelpCircle className="w-5 h-5" />} label="Help" href="/help" />
-                  <NavItem icon={<User className="w-5 h-5" />} label="My Profile" href="/profile" />
-                  <NavItem icon={<MessageSquare className="w-5 h-5" />} label="Feedback" href="/feedback" />
+                  <NavItem icon={<Home className="w-5 h-5" />} label="Home" href="/courses/bellair/home" />
+                  <NavItem icon={<Clock className="w-5 h-5" />} label="Tee Times" href="/courses/bellair/tee-times" />
+                  <NavItem icon={<Target className="w-5 h-5" />} label="Driving Range" href="/courses/bellair/range" />
+                  <NavItem icon={<Map className="w-5 h-5" />} label="Course Map" href="/courses/bellair/course-map" />
+                  <NavItem icon={<GraduationCap className="w-5 h-5" />} label="Lessons" href="/courses/bellair/lessons" />
+                  <NavItem icon={<Calendar className="w-5 h-5" />} label="Events" href="/courses/bellair/events" />
+                  <NavItem icon={<HelpCircle className="w-5 h-5" />} label="Help" href="/courses/bellair/help" />
+                  <NavItem icon={<User className="w-5 h-5" />} label="My Profile" href="/courses/bellair/profile" />
+                  <NavItem icon={<MessageSquare className="w-5 h-5" />} label="Feedback" href="/courses/bellair/feedback" />
                   <li>
                     <motion.button 
                       onClick={handleSignOut}

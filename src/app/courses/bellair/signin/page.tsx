@@ -13,7 +13,7 @@ export default function SignIn() {
 
   const handleSignIn = () => {
     if (email && password) {
-      router.push('/home')
+      router.push('/courses/bellair/home')
     }
   }
 
@@ -53,7 +53,7 @@ export default function SignIn() {
             whileHover={{ x: -3 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Link href="/" className="absolute left-0 top-5">
+            <Link href="/courses/bellair" className="absolute left-0 top-5">
               <ArrowLeft className="w-6 h-6" />
             </Link>
           </motion.div>
@@ -122,7 +122,7 @@ export default function SignIn() {
 
             <motion.div variants={itemVariants}>
               <Link 
-                href="/reset-password" 
+                href="/courses/bellair/reset-password" 
                 className="block text-[#00A6B2] text-right text-[15px] hover:opacity-80 transition-opacity"
               >
                 Forgot Password?
@@ -151,7 +151,7 @@ export default function SignIn() {
           >
             <span className="text-gray-600 text-[15px]">Don't have an account?</span>
             <Link 
-              href="/signup" 
+              href="/courses/bellair/signup" 
               className="text-[#00A6B2] text-[15px] hover:opacity-80 transition-opacity"
             >
               Sign up

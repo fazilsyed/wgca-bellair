@@ -93,7 +93,7 @@ function PaymentContent() {
     
     // Wait 3 seconds, then navigate to home
     setTimeout(() => {
-      router.push('/home')
+      router.push('/courses/bellair/home')
     }, 3000)
   }
 
@@ -111,7 +111,7 @@ function PaymentContent() {
             variants={itemVariants}
             className="flex justify-between items-center p-6 border-b"
           >
-            <Link href={`/${source}`}>
+            <Link href={`/courses/bellair/${source}`}>
               <ArrowLeft className="w-6 h-6" />
             </Link>
             <span className="text-xl font-semibold">Checkout</span>

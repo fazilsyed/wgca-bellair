@@ -11,7 +11,7 @@ export default function SignUp() {
       <main className="w-full max-w-[430px] relative min-h-screen px-6">
         {/* Header */}
         <div className="relative pt-4 pb-8">
-          <Link href="/" className="absolute left-0 top-5">
+          <Link href="/courses/bellair" className="absolute left-0 top-5">
             <ArrowLeft className="w-6 h-6" />
           </Link>
           <h1 className="text-center text-2xl font-semibold">Sign Up</h1>
@@ -66,7 +66,7 @@ export default function SignUp() {
               <input type="checkbox" className="w-4 h-4 rounded border-gray-300" />
               <span className="text-sm text-gray-600">
                 I agree to Bellair Golf Park{' '}
-                <Link href="/terms" className="text-[#00A6B2]">
+                <Link href="/courses/bellair/terms" className="text-[#00A6B2]">
                   Terms & Conditions
                 </Link>
               </span>
@@ -85,7 +85,7 @@ export default function SignUp() {
 
           <div className="text-center mt-4 space-x-1">
             <span className="text-gray-600 text-[15px]">Already have an account?</span>
-            <Link href="/signin" className="text-[#00A6B2] text-[15px]">
+            <Link href="/courses/bellair/signin" className="text-[#00A6B2] text-[15px]">
               Sign in
             </Link>
           </div>

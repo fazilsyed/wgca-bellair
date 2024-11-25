@@ -12,32 +12,32 @@ export default function BottomNavigation() {
         <NavItem 
           icon={<Home className="w-6 h-6" />} 
           label="Home" 
-          href="/home"
-          isActive={pathname === '/home'}
+          href="/courses/bellair/home"
+          isActive={pathname === '/courses/bellair/home'}
         />
         <NavItem 
           icon={<Utensils className="w-6 h-6" />} 
           label="Menu" 
-          href="/menu"
-          isActive={pathname === '/menu'}
+          href="/courses/bellair/menu"
+          isActive={pathname === '/courses/bellair/menu'}
         />
         <NavItem 
           icon={<Store className="w-6 h-6" />} 
           label="Pro Shop" 
-          href="/pro-shop"
-          isActive={pathname === '/pro-shop'}
+          href="/courses/bellair/pro-shop"
+          isActive={pathname === '/courses/bellair/pro-shop'}
         />
         <NavItem 
           icon={<Bot className="w-6 h-6" />} 
           label="AI Buddy" 
-          href="/ai-buddy"
-          isActive={pathname === '/ai-buddy'}
+          href="/courses/bellair/ai-buddy"
+          isActive={pathname === '/courses/bellair/ai-buddy'}
         />
         <NavItem 
           icon={<ClipboardList className="w-6 h-6" />} 
           label="Scorecard" 
-          href="/scorecard"
-          isActive={pathname === '/scorecard'}
+          href="/courses/bellair/scorecard"
+          isActive={pathname === '/courses/bellair/scorecard'}
         />
       </div>
     </div>

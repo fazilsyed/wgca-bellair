@@ -5,6 +5,7 @@ import { ArrowLeft, Menu, ChevronRight, CheckCircle, CreditCard, Phone, Mail } f
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import Sidebar from '@/components/Sidebar'
+import { useRouter } from 'next/navigation'
 
 type TabType = 'info' | 'faqs' | 'contact'
 
@@ -15,6 +16,7 @@ function HelpContent() {
   const [activeTab, setActiveTab] = useState<TabType>(initialTab)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null)
+  const router = useRouter()
 
   useEffect(() => {
     const tab = searchParams.get('tab') as TabType
@@ -88,9 +90,9 @@ function HelpContent() {
           variants={itemVariants}
           className="flex items-center justify-between p-4"
         >
-          <Link href="/home">
+          <button onClick={() => router.back()}>
             <ArrowLeft className="w-6 h-6" />
-          </Link>
+          </button>
           <span className="text-lg font-semibold">Help</span>
           <button onClick={() => setIsSidebarOpen(true)}>
             <Menu className="w-6 h-6" />

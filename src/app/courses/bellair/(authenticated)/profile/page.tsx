@@ -41,7 +41,7 @@ export default function ProfilePage() {
           variants={itemVariants}
           className="flex items-center justify-between p-4"
         >
-          <Link href="/home">
+          <Link href="/courses/bellair/home">
             <ArrowLeft className="w-6 h-6" />
           </Link>
           <span className="text-lg font-semibold">Personal Info</span>

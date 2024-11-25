@@ -337,8 +337,8 @@ export default function ProShopPage() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => {
-                      calculateTotals() // This will now store cart items too
-                      router.push('/payment?type=pickup&source=pro-shop')
+                      calculateTotals()
+                      router.push('/courses/bellair/payment?type=pickup&source=pro-shop')
                     }}
                     className="flex-1 bg-[#00A6B2] text-white py-3 rounded-lg font-medium"
                   >
@@ -348,8 +348,8 @@ export default function ProShopPage() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => {
-                      calculateTotals() // This will now store cart items too
-                      router.push('/payment?type=delivery&source=pro-shop')
+                      calculateTotals()
+                      router.push('/courses/bellair/payment?type=delivery&source=pro-shop')
                     }}
                     className="flex-1 border border-[#00A6B2] text-[#00A6B2] py-3 rounded-lg font-medium"
                   >

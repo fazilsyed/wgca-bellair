@@ -6,7 +6,7 @@ export default function NavigationGrid() {
   return (
     <div className="grid grid-cols-4 gap-4 p-6">
       <Link 
-        href="/tee-times"
+        href="/courses/bellair/tee-times"
         className="flex flex-col items-center justify-center"
       >
         <div className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center mb-2">
@@ -16,7 +16,7 @@ export default function NavigationGrid() {
       </Link>
       
       <Link 
-        href="/range"
+        href="/courses/bellair/range"
         className="flex flex-col items-center justify-center"
       >
         <div className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center mb-2">
@@ -26,7 +26,7 @@ export default function NavigationGrid() {
       </Link>
       
       <Link 
-        href="/course-map"
+        href="/courses/bellair/course-map"
         className="flex flex-col items-center justify-center"
       >
         <div className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center mb-2">
@@ -36,7 +36,7 @@ export default function NavigationGrid() {
       </Link>
       
       <Link 
-        href="/lessons"
+        href="/courses/bellair/lessons"
         className="flex flex-col items-center justify-center"
       >
         <div className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center mb-2">
@@ -46,7 +46,7 @@ export default function NavigationGrid() {
       </Link>
 
       <Link 
-        href="/events"
+        href="/courses/bellair/events"
         className="flex flex-col items-center justify-center"
       >
         <div className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center mb-2">
@@ -56,7 +56,7 @@ export default function NavigationGrid() {
       </Link>
       
       <Link 
-        href="/help"
+        href="/courses/bellair/help"
         className="flex flex-col items-center justify-center"
       >
         <div className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center mb-2">
@@ -66,7 +66,7 @@ export default function NavigationGrid() {
       </Link>
       
       <Link 
-        href="/help?tab=contact"
+        href="/courses/bellair/help?tab=contact"
         className="flex flex-col items-center justify-center"
       >
         <div className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center mb-2">
@@ -76,7 +76,7 @@ export default function NavigationGrid() {
       </Link>
       
       <Link 
-        href="/profile"
+        href="/courses/bellair/profile"
         className="flex flex-col items-center justify-center"
       >
         <div className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center mb-2">
