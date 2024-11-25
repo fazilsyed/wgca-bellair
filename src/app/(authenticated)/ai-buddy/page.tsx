@@ -293,16 +293,20 @@ export default function AIBuddyPage() {
                 className="space-y-2 mt-4 mb-4"
               >
                 {PRESET_PROMPTS.map((prompt, index) => (
-                  <motion.button
+                  <motion.div
                     key={index}
-                    variants={promptVariants}
-                    whileHover="hover"
-                    whileTap="tap"
-                    onClick={() => handleSendMessage(prompt)}
-                    className="w-full p-3 bg-white border rounded-lg text-left"
+                    className="flex justify-end"
                   >
-                    {prompt}
-                  </motion.button>
+                    <motion.button
+                      variants={promptVariants}
+                      whileHover="hover"
+                      whileTap="tap"
+                      onClick={() => handleSendMessage(prompt)}
+                      className="w-[80%] p-3 bg-white border rounded-lg text-left"
+                    >
+                      {prompt}
+                    </motion.button>
+                  </motion.div>
                 ))}
               </motion.div>
             )}

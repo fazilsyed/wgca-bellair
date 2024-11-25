@@ -16,7 +16,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   const handleSignOut = (e: React.MouseEvent) => {
     e.preventDefault()
-    router.push('/')
+    router.push('/courses/bellair')
   }
 
   const sidebarVariants = {
