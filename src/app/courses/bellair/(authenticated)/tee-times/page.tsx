@@ -55,7 +55,7 @@ export default function TeeTimesPage() {
           <Link href="/courses/bellair/home">
             <ArrowLeft className="w-6 h-6" />
           </Link>
-          <span className="text-lg font-semibold">Belair Tee Times</span>
+          <span className="text-lg font-semibold">Bellair Tee Times</span>
           <button onClick={() => setIsSidebarOpen(true)}>
             <Menu className="w-6 h-6" />
           </button>
