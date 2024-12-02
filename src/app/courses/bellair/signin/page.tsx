@@ -8,6 +8,11 @@ import { auth } from '@/lib/firebase/config'
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { onAuthStateChanged } from 'firebase/auth'
 
+interface FirebaseError {
+  code: string;
+  message: string;
+}
+
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState('isabel@whispering.ai')
@@ -31,8 +36,12 @@ export default function SignIn() {
         photoURL: user.photoURL || '/images/default-avatar.png'
       }))
       router.push('/courses/bellair/home')
-    } catch (err: any) {
-      setError(err.message || 'Failed to sign in')
+    } catch (err: unknown) {
+      if (err && typeof err === 'object' && 'message' in err) {
+        setError((err as FirebaseError).message)
+      } else {
+        setError('Failed to sign in')
+      }
     } finally {
       setIsLoading(false)
     }

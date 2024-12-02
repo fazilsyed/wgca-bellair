@@ -6,6 +6,12 @@ import { auth } from '@/lib/firebase/config'
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { useRouter } from 'next/navigation'
 
+// Add this interface for Firebase errors
+interface FirebaseError {
+  code: string;
+  message: string;
+}
+
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false)
   const [firstName, setFirstName] = useState('')
@@ -34,16 +40,13 @@ export default function SignUp() {
     setIsLoading(true)
 
     try {
-      // Create user in Firebase
       const userCredential = await createUserWithEmailAndPassword(auth, email, password)
       const user = userCredential.user
 
-      // Update profile with full name
       await updateProfile(user, {
         displayName: `${firstName} ${lastName}`
       })
 
-      // Store user data in localStorage
       localStorage.setItem('user', JSON.stringify({
         name: `${firstName} ${lastName}`,
         email: user.email,
@@ -51,8 +54,13 @@ export default function SignUp() {
       }))
 
       router.push('/courses/bellair/home')
-    } catch (err: any) {
-      setError(err.message || 'Failed to sign up')
+    } catch (err: unknown) {
+      // Type guard to check if error is FirebaseError
+      if (err && typeof err === 'object' && 'message' in err) {
+        setError((err as FirebaseError).message)
+      } else {
+        setError('Failed to sign up')
+      }
     } finally {
       setIsLoading(false)
     }
