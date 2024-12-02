@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import Sidebar from '@/components/Sidebar'
 import { useRouter } from 'next/navigation'
+import BottomNavigation from '@/components/BottomNavigation'
 
 type TabType = 'info' | 'faqs' | 'contact'
 
@@ -257,6 +258,13 @@ function HelpContent() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Add Bottom Navigation */}
+        <div className="fixed bottom-0 left-0 right-0 z-20 flex justify-center">
+          <div className="w-full max-w-[430px]">
+            <BottomNavigation />
+          </div>
+        </div>
 
         <Sidebar 
           isOpen={isSidebarOpen} 

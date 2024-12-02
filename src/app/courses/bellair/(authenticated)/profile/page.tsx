@@ -4,6 +4,7 @@ import { ArrowLeft, Menu } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Sidebar from '@/components/Sidebar'
+import BottomNavigation from '@/components/BottomNavigation'
 import { motion } from 'framer-motion'
 
 export default function ProfilePage() {
@@ -66,10 +67,10 @@ export default function ProfilePage() {
             </div>
           </motion.div>
 
-          {/* Form Fields */}
+          {/* Form Fields and Buttons */}
           <motion.div 
             variants={itemVariants}
-            className="space-y-6"
+            className="space-y-6 pb-24"
           >
             {/* Name */}
             <div>
@@ -122,6 +123,13 @@ export default function ProfilePage() {
               </motion.button>
             </div>
           </motion.div>
+        </div>
+
+        {/* Bottom Navigation */}
+        <div className="fixed bottom-0 left-0 right-0 z-20 flex justify-center">
+          <div className="w-full max-w-[430px]">
+            <BottomNavigation />
+          </div>
         </div>
 
         {/* Sidebar */}

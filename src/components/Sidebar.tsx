@@ -1,6 +1,6 @@
 'use client'
-import { X, Home, Clock, Target, Map, GraduationCap, 
-         Calendar, HelpCircle, User, MessageSquare, LogOut } from 'lucide-react'
+import { X, Home, Map, Utensils, Store, 
+         HelpCircle, User, MessageSquare, LogOut } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -82,15 +82,41 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               {/* Navigation Links */}
               <nav className="px-6 py-4">
                 <ul className="space-y-4">
-                  <NavItem icon={<Home className="w-5 h-5" />} label="Home" href="/courses/bellair/home" />
-                  <NavItem icon={<Clock className="w-5 h-5" />} label="Tee Times" href="/courses/bellair/tee-times" />
-                  <NavItem icon={<Target className="w-5 h-5" />} label="Driving Range" href="/courses/bellair/range" />
-                  <NavItem icon={<Map className="w-5 h-5" />} label="Course Map" href="/courses/bellair/course-map" />
-                  <NavItem icon={<GraduationCap className="w-5 h-5" />} label="Lessons" href="/courses/bellair/lessons" />
-                  <NavItem icon={<Calendar className="w-5 h-5" />} label="Events" href="/courses/bellair/events" />
-                  <NavItem icon={<HelpCircle className="w-5 h-5" />} label="Help" href="/courses/bellair/help" />
-                  <NavItem icon={<User className="w-5 h-5" />} label="My Profile" href="/courses/bellair/profile" />
-                  <NavItem icon={<MessageSquare className="w-5 h-5" />} label="Feedback" href="/courses/bellair/feedback" />
+                  <NavItem 
+                    icon={<Home className="w-5 h-5" />} 
+                    label="Home" 
+                    href="/courses/bellair/home" 
+                  />
+                  <NavItem 
+                    icon={<Map className="w-5 h-5" />} 
+                    label="Course Map" 
+                    href="/courses/bellair/course-map" 
+                  />
+                  <NavItem 
+                    icon={<Utensils className="w-5 h-5" />} 
+                    label="Menu" 
+                    href="/courses/bellair/menu" 
+                  />
+                  <NavItem 
+                    icon={<Store className="w-5 h-5" />} 
+                    label="Pro Shop" 
+                    href="/courses/bellair/pro-shop" 
+                  />
+                  <NavItem 
+                    icon={<HelpCircle className="w-5 h-5" />} 
+                    label="Help" 
+                    href="/courses/bellair/help" 
+                  />
+                  <NavItem 
+                    icon={<User className="w-5 h-5" />} 
+                    label="My Profile" 
+                    href="/courses/bellair/profile" 
+                  />
+                  <NavItem 
+                    icon={<MessageSquare className="w-5 h-5" />} 
+                    label="Feedback" 
+                    href="/courses/bellair/feedback" 
+                  />
                   <li>
                     <motion.button 
                       onClick={handleSignOut}

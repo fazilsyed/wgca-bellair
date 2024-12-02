@@ -1,5 +1,5 @@
 'use client'
-import { Home, Utensils, Store, Bot, ClipboardList, Calendar, User } from 'lucide-react'
+import { Home, Target, Calendar, Bot, ClipboardList } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -16,16 +16,16 @@ export default function BottomNavigation() {
           isActive={pathname === '/courses/bellair/home'}
         />
         <NavItem 
-          icon={<Utensils className="w-6 h-6" />} 
-          label="Menu" 
-          href="/courses/bellair/menu"
-          isActive={pathname === '/courses/bellair/menu'}
+          icon={<Target className="w-6 h-6" />} 
+          label="Range" 
+          href="/courses/bellair/range"
+          isActive={pathname === '/courses/bellair/range'}
         />
         <NavItem 
-          icon={<Store className="w-6 h-6" />} 
-          label="Pro Shop" 
-          href="/courses/bellair/pro-shop"
-          isActive={pathname === '/courses/bellair/pro-shop'}
+          icon={<Calendar className="w-6 h-6" />} 
+          label="Events" 
+          href="/courses/bellair/events"
+          isActive={pathname === '/courses/bellair/events'}
         />
         <NavItem 
           icon={<Bot className="w-6 h-6" />} 

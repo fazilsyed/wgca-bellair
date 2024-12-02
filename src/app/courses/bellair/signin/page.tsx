@@ -49,14 +49,15 @@ export default function SignIn() {
           variants={itemVariants}
           className="relative pt-4 pb-8"
         >
-          <motion.div
-            whileHover={{ x: -3 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Link href="/courses/bellair" className="absolute left-0 top-5">
+          <Link href="/courses/bellair" className="absolute left-0 top-5">
+            <motion.div
+              whileHover={{ x: -3 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-fit"
+            >
               <ArrowLeft className="w-6 h-6" />
-            </Link>
-          </motion.div>
+            </motion.div>
+          </Link>
           <h1 className="text-center text-2xl font-semibold">Sign In</h1>
         </motion.div>
 
