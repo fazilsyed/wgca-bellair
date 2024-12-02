@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Menu, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
@@ -9,9 +9,27 @@ import NavigationGrid from '@/components/NavigationGrid'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
+interface UserData {
+  name: string
+  email: string
+  photoURL: string
+}
+
 export default function HomePage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [userData, setUserData] = useState<UserData | null>(null)
   const router = useRouter()
+
+  useEffect(() => {
+    // Get user data from localStorage
+    const storedUser = localStorage.getItem('user')
+    if (storedUser) {
+      setUserData(JSON.parse(storedUser))
+    } else {
+      // If no user data, redirect to sign in
+      router.push('/courses/bellair/signin')
+    }
+  }, [router])
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -56,7 +74,7 @@ export default function HomePage() {
                   className="rounded-full cursor-pointer hover:opacity-90 transition-opacity"
                 />
               </Link>
-              <span className="text-lg">Hello Isabel 👋</span>
+              <span className="text-lg">Hello {userData?.name || 'Guest'} 👋</span>
             </div>
             <button onClick={() => setIsSidebarOpen(true)}>
               <Menu className="w-6 h-6 text-gray-600" />

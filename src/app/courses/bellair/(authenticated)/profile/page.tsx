@@ -1,14 +1,34 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ArrowLeft, Menu } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Sidebar from '@/components/Sidebar'
 import BottomNavigation from '@/components/BottomNavigation'
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
+
+interface UserData {
+  name: string
+  email: string
+  photoURL: string
+}
 
 export default function ProfilePage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [userData, setUserData] = useState<UserData | null>(null)
+  const router = useRouter()
+
+  useEffect(() => {
+    // Get user data from localStorage
+    const storedUser = localStorage.getItem('user')
+    if (storedUser) {
+      setUserData(JSON.parse(storedUser))
+    } else {
+      // If no user data, redirect to sign in
+      router.push('/courses/bellair/signin')
+    }
+  }, [router])
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -59,7 +79,7 @@ export default function ProfilePage() {
           >
             <div className="relative w-24 h-24 rounded-full overflow-hidden">
               <Image
-                src="/images/isabel-round-avatar.png"
+                src={userData?.photoURL || '/images/isabel-round-avatar.png'}
                 alt="Profile"
                 fill
                 className="object-cover"
@@ -77,18 +97,7 @@ export default function ProfilePage() {
               <label className="block text-sm mb-2">Name</label>
               <input
                 type="text"
-                value="Isabel Prado"
-                readOnly
-                className="w-full p-3 bg-gray-50 rounded-lg"
-              />
-            </div>
-
-            {/* Phone Number */}
-            <div>
-              <label className="block text-sm mb-2">Phone Number</label>
-              <input
-                type="tel"
-                value="602-555-1234"
+                value={userData?.name || ''}
                 readOnly
                 className="w-full p-3 bg-gray-50 rounded-lg"
               />
@@ -99,7 +108,18 @@ export default function ProfilePage() {
               <label className="block text-sm mb-2">Email</label>
               <input
                 type="email"
-                value="isabel@whispering.ai"
+                value={userData?.email || ''}
+                readOnly
+                className="w-full p-3 bg-gray-50 rounded-lg"
+              />
+            </div>
+
+            {/* Phone Number - Optional: You might want to add this to user data later */}
+            <div>
+              <label className="block text-sm mb-2">Phone Number</label>
+              <input
+                type="tel"
+                placeholder="Add your phone number"
                 readOnly
                 className="w-full p-3 bg-gray-50 rounded-lg"
               />
