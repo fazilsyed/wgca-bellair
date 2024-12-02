@@ -29,7 +29,6 @@ export default function SignIn() {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password)
       const user = userCredential.user
-      // Store user data in localStorage for persistence
       localStorage.setItem('user', JSON.stringify({
         name: user.displayName || email.split('@')[0],
         email: user.email,
@@ -55,7 +54,6 @@ export default function SignIn() {
       const provider = new GoogleAuthProvider()
       const result = await signInWithPopup(auth, provider)
       const user = result.user
-      // Store user data in localStorage for persistence
       localStorage.setItem('user', JSON.stringify({
         name: user.displayName,
         email: user.email,
