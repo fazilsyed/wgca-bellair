@@ -133,8 +133,12 @@ export default function ScorecardPage() {
       })
 
       // Calculate new totals
-      const totalScore = updatedHoles.reduce((sum, hole) => sum + hole.score, 0)
-      const totalPar = updatedHoles.reduce((sum, hole) => sum + hole.par, 0)
+      const totalScore = updatedHoles.reduce((sum, hole) => {
+        return hole.score > 0 ? sum + hole.score : sum
+      }, 0)
+      const totalPar = updatedHoles.reduce((sum, hole) => {
+        return hole.score > 0 ? sum + hole.par : sum
+      }, 0)
 
       return {
         ...prev,
@@ -198,23 +202,30 @@ export default function ScorecardPage() {
         </div>
 
         {/* Tabs */}
-        <div className="flex px-4 mb-6">
+        <div className="relative flex mx-6 mb-6 border border-gray-200 rounded-xl p-1 overflow-hidden">
+          <motion.div
+            className="absolute inset-y-[4px] bg-[#00A6B2] rounded-lg"
+            initial={false}
+            animate={{
+              left: activeTab === 'current' 
+                ? '1%' 
+                : '50%'
+            }}
+            style={{ width: '48%' }}
+            transition={{ type: 'spring', bounce: 0.15, duration: 0.3 }}
+          />
           <button
             onClick={() => setActiveTab('current')}
-            className={`flex-1 py-2 text-center rounded-full mx-2 ${
-              activeTab === 'current' 
-                ? 'bg-[#00A6B2] text-white' 
-                : 'text-gray-500'
+            className={`relative flex-1 py-1.5 text-center z-10 ${
+              activeTab === 'current' ? 'text-white' : 'text-gray-600'
             }`}
           >
             Current
           </button>
           <button
             onClick={() => setActiveTab('previous')}
-            className={`flex-1 py-2 text-center rounded-full mx-2 ${
-              activeTab === 'previous' 
-                ? 'bg-[#00A6B2] text-white' 
-                : 'text-gray-500'
+            className={`relative flex-1 py-1.5 text-center z-10 ${
+              activeTab === 'previous' ? 'text-white' : 'text-gray-600'
             }`}
           >
             Previous
@@ -234,20 +245,22 @@ export default function ScorecardPage() {
               {/* Current scorecard content */}
               <>
                 {/* Score Summary */}
-                <div className="flex justify-between px-4 mb-6">
-                  <div>
-                    <span className="text-gray-500">TOTAL:</span>
-                    <span className="text-xl font-semibold ml-2">
-                      {currentScorecard.totalScore}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-gray-500">PAR:</span>
-                    <span className="text-xl font-semibold ml-2">
-                      {currentScorecard.totalScore > currentScorecard.totalPar 
-                        ? '+' + (currentScorecard.totalScore - currentScorecard.totalPar)
-                        : currentScorecard.totalScore - currentScorecard.totalPar}
-                    </span>
+                <div className="flex justify-end px-4 mb-6">
+                  <div className="flex items-center gap-4">
+                    <div>
+                      <span className="text-gray-500">TOTAL:</span>
+                      <span className="text-xl font-semibold ml-2">
+                        {currentScorecard.totalScore}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-gray-500">PAR:</span>
+                      <span className="text-xl font-semibold ml-2">
+                        {currentScorecard.totalScore > currentScorecard.totalPar 
+                          ? '+' + (currentScorecard.totalScore - currentScorecard.totalPar)
+                          : currentScorecard.totalScore - currentScorecard.totalPar}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
@@ -256,11 +269,11 @@ export default function ScorecardPage() {
                   {currentScorecard.holes.map((hole) => (
                     <div 
                       key={hole.number}
-                      className="flex items-center justify-between bg-gray-50 rounded-lg p-3"
+                      className="grid grid-cols-2 bg-gray-50 rounded-lg h-20"
                     >
-                      <div className="flex items-center">
+                      <div className="flex items-center pl-3">
                         <div className="relative flex items-center">
-                          {/* Hole layout image - increased from w-12/h-12 to w-14/h-14 */}
+                          {/* Hole layout image */}
                           <div className="relative w-14 h-14">
                             <Image
                               src={hole.layoutImageUrl}
@@ -269,7 +282,7 @@ export default function ScorecardPage() {
                               className="object-contain"
                             />
                           </div>
-                          {/* Hole number circle - moved to left-4 for more overlap */}
+                          {/* Hole number circle */}
                           <div className="absolute left-4 top-1/2 transform -translate-y-1/2 -translate-x-1/2 w-6 h-6 bg-[#00A6B2] text-white rounded-full flex items-center justify-center text-sm">
                             {hole.number}
                           </div>
@@ -277,26 +290,30 @@ export default function ScorecardPage() {
                         <span className="text-gray-500 ml-3">Par {hole.par}</span>
                       </div>
 
-                      <div className="flex items-center gap-4">
-                        <button 
-                          onClick={() => updateHoleScore(hole.number, false)}
-                          className="w-8 h-8 flex items-center justify-center border border-gray-200 rounded-lg"
-                        >
-                          <Minus className="w-4 h-4" />
-                        </button>
-                        <span className="w-4 text-center">{hole.score}</span>
-                        <button 
-                          onClick={() => updateHoleScore(hole.number, true)}
-                          className="w-8 h-8 flex items-center justify-center border border-gray-200 rounded-lg"
-                        >
-                          <Plus className="w-4 h-4" />
-                        </button>
-                        <div className="w-8 text-center">
-                          {hole.score > hole.par 
-                            ? `+${hole.score - hole.par}`
-                            : hole.score < hole.par 
-                              ? hole.score - hole.par
-                              : '0'}
+                      <div className="relative h-full">
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="flex items-center gap-3">
+                            <button 
+                              onClick={() => updateHoleScore(hole.number, false)}
+                              className="w-10 h-10 flex items-center justify-center border border-gray-200 rounded-lg hover:bg-gray-100"
+                            >
+                              <Minus className="w-5 h-5" />
+                            </button>
+                            <span className="w-6 text-center text-lg font-medium">{hole.score}</span>
+                            <button 
+                              onClick={() => updateHoleScore(hole.number, true)}
+                              className="w-10 h-10 flex items-center justify-center border border-gray-200 rounded-lg hover:bg-gray-100"
+                            >
+                              <Plus className="w-5 h-5" />
+                            </button>
+                            <div className="w-8 text-center text-lg ml-3">
+                              {hole.score > hole.par 
+                                ? `+${hole.score - hole.par}`
+                                : hole.score < hole.par && hole.score > 0
+                                  ? hole.score - hole.par
+                                  : '0'}
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>

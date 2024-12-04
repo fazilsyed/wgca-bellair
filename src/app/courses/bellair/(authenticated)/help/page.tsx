@@ -101,33 +101,40 @@ function HelpContent() {
         </motion.div>
 
         {/* Tabs */}
-        <div className="flex mb-6">
+        <div className="relative flex mx-6 mb-6 border border-gray-200 rounded-xl p-1 overflow-hidden">
+          <motion.div
+            className="absolute inset-y-[4px] bg-[#00A6B2] rounded-lg"
+            initial={false}
+            animate={{
+              left: activeTab === 'info' 
+                ? '1%' 
+                : activeTab === 'faqs' 
+                  ? '34%' 
+                  : '67%'
+            }}
+            style={{ width: '31%' }}
+            transition={{ type: 'spring', bounce: 0.15, duration: 0.3 }}
+          />
           <button
             onClick={() => setActiveTab('info')}
-            className={`flex-1 py-2 ${
-              activeTab === 'info' 
-                ? 'bg-[#00A6B2] text-white rounded-full mx-2' 
-                : 'text-gray-500'
+            className={`relative flex-1 py-1.5 text-center z-10 ${
+              activeTab === 'info' ? 'text-white' : 'text-gray-600'
             }`}
           >
             Info
           </button>
           <button
             onClick={() => setActiveTab('faqs')}
-            className={`flex-1 py-2 ${
-              activeTab === 'faqs' 
-                ? 'bg-[#00A6B2] text-white rounded-full mx-2' 
-                : 'text-gray-500'
+            className={`relative flex-1 py-1.5 text-center z-10 ${
+              activeTab === 'faqs' ? 'text-white' : 'text-gray-600'
             }`}
           >
             FAQs
           </button>
           <button
             onClick={() => setActiveTab('contact')}
-            className={`flex-1 py-2 ${
-              activeTab === 'contact' 
-                ? 'bg-[#00A6B2] text-white rounded-full mx-2' 
-                : 'text-gray-500'
+            className={`relative flex-1 py-1.5 text-center z-10 ${
+              activeTab === 'contact' ? 'text-white' : 'text-gray-600'
             }`}
           >
             Contact

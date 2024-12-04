@@ -41,7 +41,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 flex justify-center">
+        <div className="fixed inset-0 flex justify-center z-[100]">
           <div className="relative w-full max-w-[430px]">
             {/* Overlay */}
             <motion.div 
@@ -49,7 +49,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="absolute inset-0 bg-black bg-opacity-50 z-40"
+              className="absolute inset-0 bg-black bg-opacity-50 z-[101]"
               onClick={onClose}
             />
 
@@ -59,7 +59,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               animate="open"
               exit="closed"
               variants={sidebarVariants}
-              className="absolute top-0 right-0 h-full w-[300px] bg-[#1C1C1E] z-50"
+              className="absolute top-0 right-0 h-full w-[300px] bg-[#1C1C1E] z-[102]"
             >
               {/* Header */}
               <div className="flex justify-between items-center p-6">

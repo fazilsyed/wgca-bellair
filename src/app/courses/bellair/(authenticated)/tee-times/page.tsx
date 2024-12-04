@@ -83,29 +83,33 @@ export default function TeeTimesPage() {
         </motion.div>
 
         {/* Tabs */}
-        <motion.div 
-          variants={itemVariants}
-          className="flex mb-6 px-4"
-        >
+        <div className="relative flex mx-6 mb-6 border border-gray-200 rounded-xl p-1 overflow-hidden">
+          <motion.div
+            className="absolute inset-y-[4px] bg-[#00A6B2] rounded-lg"
+            initial={false}
+            animate={{
+              left: activeTab === 'tee-times' ? '1%' : '50%'
+            }}
+            style={{ width: '48%' }}
+            transition={{ type: 'spring', bounce: 0.15, duration: 0.3 }}
+          />
           <button
             onClick={() => setActiveTab('tee-times')}
-            className={`flex-1 py-2 text-center ${
-              activeTab === 'tee-times' ? '' : 'text-gray-500'
+            className={`relative flex-1 py-1.5 text-center z-10 ${
+              activeTab === 'tee-times' ? 'text-white' : 'text-gray-600'
             }`}
           >
             Tee Times
           </button>
           <button
             onClick={() => setActiveTab('reservations')}
-            className={`flex-1 py-2 text-center ${
-              activeTab === 'reservations' 
-                ? 'bg-[#00A6B2] text-white rounded-full'
-                : 'text-gray-500'
+            className={`relative flex-1 py-1.5 text-center z-10 ${
+              activeTab === 'reservations' ? 'text-white' : 'text-gray-600'
             }`}
           >
             My Reservations
           </button>
-        </motion.div>
+        </div>
 
         {/* Available Tee Times */}
         <motion.div 

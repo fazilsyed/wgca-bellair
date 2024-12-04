@@ -210,11 +210,11 @@ export default function ProShopPage() {
   }
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 10 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.3 }
+      transition: { duration: 0.2 }
     }
   }
 
@@ -304,9 +304,9 @@ export default function ProShopPage() {
               {filteredProducts.map(product => (
                 <motion.div
                   key={product.id}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
                 >
                   <ProductCard
@@ -424,7 +424,7 @@ function ProductCard({ product, quantity, onUpdateQuantity }: {
   return (
     <motion.div 
       whileHover={{ scale: 1.02 }}
-      transition={{ duration: 0.2 }}
+      transition={{ duration: 0.1 }}
       className="bg-gray-50 rounded-lg overflow-hidden"
     >
       <div className="relative h-40 bg-white">
@@ -442,8 +442,9 @@ function ProductCard({ product, quantity, onUpdateQuantity }: {
         <p className="text-[#00A6B2] mb-3">${product.price.toFixed(2)}</p>
         <div className="flex justify-between items-center">
           <motion.button 
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.1 }}
             onClick={() => onUpdateQuantity(false)}
             className="w-8 h-8 flex items-center justify-center border border-gray-200 rounded-lg"
           >
@@ -451,8 +452,9 @@ function ProductCard({ product, quantity, onUpdateQuantity }: {
           </motion.button>
           <span>{quantity}</span>
           <motion.button 
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.1 }}
             onClick={() => onUpdateQuantity(true)}
             className="w-8 h-8 flex items-center justify-center border border-gray-200 rounded-lg"
           >

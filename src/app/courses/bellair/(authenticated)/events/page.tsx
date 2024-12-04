@@ -14,13 +14,13 @@ interface Event {
   description: string;
   image: string;
   date: string;
-  type: 'tournament' | 'party';
+  type: 'tournament' | 'event';
 }
 
 export default function EventsPage() {
   const router = useRouter()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const [activeFilter, setActiveFilter] = useState<'all' | 'tournament' | 'party'>('all')
+  const [activeFilter, setActiveFilter] = useState<'all' | 'event' | 'tournament'>('all')
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -56,7 +56,7 @@ export default function EventsPage() {
       description: 'Experience the beauty of our course in our bi-weekly twilight series every Saturday.',
       image: '/images/events.webp',
       date: 'Sat 12/14/24',
-      type: 'party'
+      type: 'event'
     },
     {
       id: '3',
@@ -64,7 +64,7 @@ export default function EventsPage() {
       description: 'Our annual fundraiser for supporting the kids in our communities and teaching them golf.',
       image: '/images/events.webp',
       date: 'Sat 12/14/24',
-      type: 'party'
+      type: 'event'
     },
     {
       id: '4',
@@ -141,6 +141,16 @@ export default function EventsPage() {
             All
           </button>
           <button
+            onClick={() => setActiveFilter('event')}
+            className={`px-4 py-2 rounded-full border ${
+              activeFilter === 'event' 
+                ? 'bg-[#00A6B2] text-white' 
+                : 'border-gray-200'
+            }`}
+          >
+            Events
+          </button>
+          <button
             onClick={() => setActiveFilter('tournament')}
             className={`px-4 py-2 rounded-full border ${
               activeFilter === 'tournament' 
@@ -150,16 +160,6 @@ export default function EventsPage() {
           >
             Tournaments
           </button>
-          <button
-            onClick={() => setActiveFilter('party')}
-            className={`px-4 py-2 rounded-full border ${
-              activeFilter === 'party' 
-                ? 'bg-[#00A6B2] text-white' 
-                : 'border-gray-200'
-            }`}
-          >
-            Parties
-          </button>
         </motion.div>
 
         {/* Events Grid */}
@@ -168,12 +168,14 @@ export default function EventsPage() {
           className="px-4 pb-24"
         >
           <div className="grid grid-cols-2 gap-4">
-            <AnimatePresence>
+            <AnimatePresence mode="wait">
               {filteredEvents.map((event) => (
                 <motion.div
                   key={event.id}
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.02 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  layout
                   transition={{ duration: 0.2 }}
                   className="bg-gray-50 rounded-lg overflow-hidden"
                 >
@@ -199,6 +201,7 @@ export default function EventsPage() {
                       <motion.button 
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
+                        transition={{ duration: 0.1 }}
                         className="bg-[#00A6B2] text-white px-4 py-1 rounded-lg text-sm"
                       >
                         More Info

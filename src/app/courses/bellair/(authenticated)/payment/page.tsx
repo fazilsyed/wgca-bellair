@@ -129,7 +129,7 @@ function PaymentContent() {
               <div className="bg-[#00A6B2] p-3 rounded-lg">
                 <Car className="w-6 h-6 text-white" />
               </div>
-              <span className="font-medium">Course Delivery</span>
+              <span className="font-medium">Pickup</span>
             </div>
             <button className="text-[#00A6B2]">Change</button>
           </motion.div>
@@ -188,7 +188,7 @@ function PaymentContent() {
             <div className="space-y-2">
               <div className="flex justify-between">
                 <span>Grand Subtotal</span>
-                <span>${orderDetails.subtotal}</span>
+                <span>${orderDetails.total}</span>
               </div>
               <div className="flex justify-between">
                 <span>Service Fee</span>

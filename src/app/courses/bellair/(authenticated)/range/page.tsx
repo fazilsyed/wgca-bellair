@@ -7,8 +7,17 @@ import Sidebar from '@/components/Sidebar'
 import BottomNavigation from '@/components/BottomNavigation'
 import { motion, AnimatePresence } from 'framer-motion'
 
+interface Event {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  date: string;
+  type: 'tournament' | 'event';
+}
+
 export default function RangePage() {
-  const [activeTab, setActiveTab] = useState('time-slots')
+  const [activeTab, setActiveTab] = useState<'info' | 'balls' | 'waitlist'>('info')
   const [searchQuery, setSearchQuery] = useState('')
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
@@ -38,6 +47,26 @@ export default function RangePage() {
       transition: { duration: 0.3 }
     }
   }
+
+  const events: Event[] = [
+    {
+      id: '1',
+      title: 'Summer Golf Tournament',
+      description: 'Join our annual summer tournament with great prizes and fun for all skill levels.',
+      image: '/images/events.webp',
+      date: 'Sat 12/14/24',
+      type: 'tournament'
+    },
+    {
+      id: '2',
+      title: 'Twilight Picnic on The Course',
+      description: 'Experience the beauty of our course in our bi-weekly twilight series every Saturday.',
+      image: '/images/events.webp',
+      date: 'Sat 12/14/24',
+      type: 'event'
+    },
+    // ... other events
+  ]
 
   return (
     <motion.div
@@ -83,53 +112,96 @@ export default function RangePage() {
         </motion.div>
 
         {/* Tabs */}
-        <motion.div variants={itemVariants} className="flex px-4 mb-6">
+        <div className="relative flex mx-6 mb-6 border border-gray-200 rounded-xl p-1 overflow-hidden">
+          <motion.div
+            className="absolute inset-y-[4px] bg-[#00A6B2] rounded-lg"
+            initial={false}
+            animate={{
+              left: activeTab === 'info' 
+                ? '1%' 
+                : activeTab === 'balls'
+                  ? '34%'
+                  : '67%'
+            }}
+            style={{ width: '31%' }}
+            transition={{ type: 'spring', bounce: 0.15, duration: 0.3 }}
+          />
           <button
-            onClick={() => setActiveTab('time-slots')}
-            className={`flex-1 py-2 ${activeTab === 'time-slots' ? '' : 'text-gray-500'}`}
-          >
-            Time Slots
-          </button>
-          <button
-            onClick={() => setActiveTab('my-reservations')}
-            className={`flex-1 py-2 ${
-              activeTab === 'my-reservations' 
-                ? 'bg-[#00A6B2] text-white rounded-full mx-2' 
-                : 'text-gray-500'
+            onClick={() => setActiveTab('info')}
+            className={`relative flex-1 py-1.5 text-center z-10 ${
+              activeTab === 'info' ? 'text-white' : 'text-gray-600'
             }`}
           >
-            My Reservations
+            Info
           </button>
-        </motion.div>
+          <button
+            onClick={() => setActiveTab('balls')}
+            className={`relative flex-1 py-1.5 text-center z-10 ${
+              activeTab === 'balls' ? 'text-white' : 'text-gray-600'
+            }`}
+          >
+            Balls
+          </button>
+          <button
+            onClick={() => setActiveTab('waitlist')}
+            className={`relative flex-1 py-1.5 text-center z-10 ${
+              activeTab === 'waitlist' ? 'text-white' : 'text-gray-600'
+            }`}
+          >
+            Waitlist
+          </button>
+        </div>
 
-        {/* Range Times List */}
-        <motion.div variants={itemVariants} className="px-4">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold">Available Range Times</h2>
-            <Link href="/courses/bellair/range/all" className="text-[#00A6B2] flex items-center">
-              View All <ChevronRight className="w-4 h-4 ml-1" />
-            </Link>
-          </div>
-
-          <div className="space-y-4">
-            {rangeTimes.map((time, index) => (
-              <div key={index} className="flex justify-between items-center">
-                <div>
-                  <div className="text-gray-600">{time.date}</div>
-                  <div className="font-medium">{time.time}</div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <span className="text-gray-600">
-                    {time.available} avail
-                  </span>
-                  {index === 0 && (
-                    <span className="text-[#00A6B2]">View</span>
-                  )}
-                </div>
+        {/* Tab Content */}
+        <AnimatePresence mode="wait">
+          {activeTab === 'info' ? (
+            <motion.div
+              key="info"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="px-4"
+            >
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold">Available Range Times</h2>
+                <Link href="/courses/bellair/range/all" className="text-[#00A6B2] flex items-center">
+                  View All <ChevronRight className="w-4 h-4 ml-1" />
+                </Link>
               </div>
-            ))}
-          </div>
-        </motion.div>
+              <div className="mb-4">
+                <h3 className="text-lg font-medium">About Bellair Driving Range</h3>
+                <p className="text-gray-600">
+                  Located in Glendale, AZ, Bellair Driving Range offers a premier golfing experience with state-of-the-art facilities. Whether you're a beginner or a seasoned golfer, our range provides the perfect environment to practice your swing.
+                </p>
+              </div>
+              <div className="mb-4">
+                <h3 className="text-lg font-medium">Facilities</h3>
+                <ul className="list-disc list-inside text-gray-600">
+                  <li>Advanced swing analysis systems</li>
+                  <li>Gaming systems for fun practice</li>
+                  <li>Pro shop with the latest gear</li>
+                  <li>On-site restaurant and bar</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-lg font-medium">Hours of Operation</h3>
+                <p className="text-gray-600">
+                  Open daily from 6am to 10pm. On Tuesdays, the range opens at 9am for maintenance.
+                </p>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="px-4 flex justify-center items-center h-[200px]"
+            >
+              <p className="text-gray-500 text-lg">Coming Soon</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Search Section */}
         <motion.div variants={itemVariants} className="px-4 mt-6 pb-24">
