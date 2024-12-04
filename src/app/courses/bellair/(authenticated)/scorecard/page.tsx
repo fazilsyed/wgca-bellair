@@ -1,10 +1,22 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Menu, Minus, Plus, Eye } from 'lucide-react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import Sidebar from '@/components/Sidebar'
 import BottomNavigation from '@/components/BottomNavigation'
+import Link from 'next/link'
+import { auth, db } from '@/lib/firebase/config'
+import { doc, getDoc } from 'firebase/firestore'
+import { useRouter } from 'next/navigation'
+
+interface UserData {
+  firstName: string
+  lastName: string
+  email: string
+  photoURL: string
+  phoneNumber: string
+}
 
 // This interface will help with Firebase integration later
 interface Scorecard {
@@ -34,13 +46,53 @@ interface PreviousScorecard {
 }
 
 export default function ScorecardPage() {
+  const router = useRouter()
+  const [userData, setUserData] = useState<UserData | null>(null)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  
+  // Add useEffect for fetching user data
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const user = auth.currentUser
+      if (!user) {
+        router.push('/courses/bellair/signin')
+        return
+      }
+
+      try {
+        const userDoc = await getDoc(doc(db, 'users', user.uid))
+        if (userDoc.exists()) {
+          const data = userDoc.data() as UserData
+          setUserData(data)
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error)
+      }
+    }
+
+    fetchUserData()
+  }, [router])
+
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1 }
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.3 }
+    }
   }
   
   const [activeTab, setActiveTab] = useState<'current' | 'previous'>('current')
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   
   // This will be fetched from Firebase later
   const [currentScorecard, setCurrentScorecard] = useState<Scorecard>({
@@ -111,22 +163,31 @@ export default function ScorecardPage() {
       className="flex justify-center w-full bg-white min-h-screen"
     >
       <div className="w-full max-w-[430px] relative">
-        {/* Header */}
-        <div className="flex items-center justify-between p-4">
+        {/* Updated Header */}
+        <motion.div 
+          variants={itemVariants}
+          className="flex justify-between items-center p-6"
+        >
           <div className="flex items-center gap-3">
-            <Image
-              src="/images/isabel-round-avatar.png"
-              alt="Profile"
-              width={40}
-              height={40}
-              className="rounded-full"
-            />
-            <span className="text-lg">Hello Isabel 👋</span>
+            <Link href="/courses/bellair/profile">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-[40px] h-[40px] rounded-full overflow-hidden"
+              >
+                <img
+                  src={userData?.photoURL || '/images/default-avatar.png'}
+                  alt="Profile"
+                  className="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
+                />
+              </motion.div>
+            </Link>
+            <span className="text-lg">Hey {userData?.firstName || 'Guest'} 👋</span>
           </div>
           <button onClick={() => setIsSidebarOpen(true)}>
-            <Menu className="w-6 h-6" />
+            <Menu className="w-6 h-6 text-gray-600" />
           </button>
-        </div>
+        </motion.div>
 
         {/* Scorecard Info Card */}
         <div className="mx-6 p-6 bg-[#00A6B2] rounded-xl text-white mb-6">

@@ -1,12 +1,23 @@
 'use client'
 
-import { useState } from 'react'
-import { ArrowLeft, Menu, ThumbsUp } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Menu, ThumbsUp } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import Sidebar from '@/components/Sidebar'
 import BottomNavigation from '@/components/BottomNavigation'
 import { motion, AnimatePresence } from 'framer-motion'
+import Link from 'next/link'
+import { auth, db } from '@/lib/firebase/config'
+import { doc, getDoc } from 'firebase/firestore'
+
+interface UserData {
+  firstName: string
+  lastName: string
+  email: string
+  photoURL: string
+  phoneNumber: string
+}
 
 interface Instructor {
   id: string;
@@ -18,7 +29,30 @@ interface Instructor {
 
 export default function GolfLessonsPage() {
   const router = useRouter()
+  const [userData, setUserData] = useState<UserData | null>(null)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const user = auth.currentUser
+      if (!user) {
+        router.push('/courses/bellair/signin')
+        return
+      }
+
+      try {
+        const userDoc = await getDoc(doc(db, 'users', user.uid))
+        if (userDoc.exists()) {
+          const data = userDoc.data() as UserData
+          setUserData(data)
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error)
+      }
+    }
+
+    fetchUserData()
+  }, [router])
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -78,17 +112,29 @@ export default function GolfLessonsPage() {
       className="flex justify-center w-full bg-white min-h-screen"
     >
       <div className="w-full max-w-[430px] relative">
-        {/* Header */}
+        {/* Updated Header */}
         <motion.div 
           variants={itemVariants}
-          className="flex items-center justify-between p-4"
+          className="flex justify-between items-center p-6"
         >
-          <button onClick={() => router.back()}>
-            <ArrowLeft className="w-6 h-6" />
-          </button>
-          <span className="text-lg font-semibold">Golf Lessons</span>
+          <div className="flex items-center gap-3">
+            <Link href="/courses/bellair/profile">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-[40px] h-[40px] rounded-full overflow-hidden"
+              >
+                <img
+                  src={userData?.photoURL || '/images/default-avatar.png'}
+                  alt="Profile"
+                  className="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
+                />
+              </motion.div>
+            </Link>
+            <span className="text-lg">Hey {userData?.firstName || 'Guest'} 👋</span>
+          </div>
           <button onClick={() => setIsSidebarOpen(true)}>
-            <Menu className="w-6 h-6" />
+            <Menu className="w-6 h-6 text-gray-600" />
           </button>
         </motion.div>
 

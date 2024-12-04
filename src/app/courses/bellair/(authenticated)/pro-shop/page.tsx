@@ -6,6 +6,17 @@ import Sidebar from '@/components/Sidebar'
 import BottomNavigation from '@/components/BottomNavigation'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
+import Link from 'next/link'
+import { auth, db } from '@/lib/firebase/config'
+import { doc, getDoc } from 'firebase/firestore'
+
+interface UserData {
+  firstName: string
+  lastName: string
+  email: string
+  photoURL: string
+  phoneNumber: string
+}
 
 interface Product {
   id: string;
@@ -23,9 +34,32 @@ interface CartItem {
 
 export default function ProShopPage() {
   const router = useRouter()
+  const [userData, setUserData] = useState<UserData | null>(null)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [cart, setCart] = useState<CartItem[]>([])
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const user = auth.currentUser
+      if (!user) {
+        router.push('/courses/bellair/signin')
+        return
+      }
+
+      try {
+        const userDoc = await getDoc(doc(db, 'users', user.uid))
+        if (userDoc.exists()) {
+          const data = userDoc.data() as UserData
+          setUserData(data)
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error)
+      }
+    }
+
+    fetchUserData()
+  }, [router])
 
   const products: Product[] = [
     {
@@ -199,14 +233,20 @@ export default function ProShopPage() {
             className="flex justify-between items-center p-6"
           >
             <div className="flex items-center gap-3">
-              <Image
-                src="/images/isabel-round-avatar.png"
-                alt="Profile"
-                width={40}
-                height={40}
-                className="rounded-full"
-              />
-              <span className="text-lg">Hello, Isabel 👋</span>
+              <Link href="/courses/bellair/profile">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-[40px] h-[40px] rounded-full overflow-hidden"
+                >
+                  <img
+                    src={userData?.photoURL || '/images/default-avatar.png'}
+                    alt="Profile"
+                    className="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
+                  />
+                </motion.div>
+              </Link>
+              <span className="text-lg">Hey {userData?.firstName || 'Guest'} 👋</span>
             </div>
             <button onClick={() => setIsSidebarOpen(true)}>
               <Menu className="w-6 h-6 text-gray-600" />

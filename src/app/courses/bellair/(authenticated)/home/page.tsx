@@ -8,11 +8,15 @@ import BottomNavigation from '@/components/BottomNavigation'
 import NavigationGrid from '@/components/NavigationGrid'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { auth, db } from '@/lib/firebase/config'
+import { getDoc, doc } from 'firebase/firestore'
 
 interface UserData {
-  name: string
+  firstName: string
+  lastName: string
   email: string
   photoURL: string
+  phoneNumber: string
 }
 
 export default function HomePage() {
@@ -21,14 +25,25 @@ export default function HomePage() {
   const router = useRouter()
 
   useEffect(() => {
-    // Get user data from localStorage
-    const storedUser = localStorage.getItem('user')
-    if (storedUser) {
-      setUserData(JSON.parse(storedUser))
-    } else {
-      // If no user data, redirect to sign in
-      router.push('/courses/bellair/signin')
+    const fetchUserData = async () => {
+      const user = auth.currentUser
+      if (!user) {
+        router.push('/courses/bellair/signin')
+        return
+      }
+
+      try {
+        const userDoc = await getDoc(doc(db, 'users', user.uid))
+        if (userDoc.exists()) {
+          const data = userDoc.data() as UserData
+          setUserData(data)
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error)
+      }
     }
+
+    fetchUserData()
   }, [router])
 
   const containerVariants = {
@@ -66,15 +81,19 @@ export default function HomePage() {
           >
             <div className="flex items-center gap-3">
               <Link href="/courses/bellair/profile">
-                <Image
-                  src="/images/isabel-round-avatar.png"
-                  alt="Profile"
-                  width={40}
-                  height={40}
-                  className="rounded-full cursor-pointer hover:opacity-90 transition-opacity"
-                />
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-[40px] h-[40px] rounded-full overflow-hidden"
+                >
+                  <img
+                    src={userData?.photoURL || '/images/default-avatar.png'}
+                    alt="Profile"
+                    className="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
+                  />
+                </motion.div>
               </Link>
-              <span className="text-lg">Hello {userData?.name || 'Guest'} 👋</span>
+              <span className="text-lg">Hey {userData?.firstName || 'Guest'} 👋</span>
             </div>
             <button onClick={() => setIsSidebarOpen(true)}>
               <Menu className="w-6 h-6 text-gray-600" />

@@ -1,12 +1,12 @@
 'use client'
 import Link from 'next/link'
-import { ArrowLeft, Mail, Lock, Eye } from 'lucide-react'
+import { ArrowLeft, Mail, Lock, Eye, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { auth } from '@/lib/firebase/config'
+import { auth, db } from '@/lib/firebase/config'
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
-import { onAuthStateChanged } from 'firebase/auth'
+import { doc, getDoc } from 'firebase/firestore'
 
 interface FirebaseError {
   code: string;
@@ -14,11 +14,11 @@ interface FirebaseError {
 }
 
 export default function SignIn() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const [email, setEmail] = useState('isabel@whispering.ai')
-  const [password, setPassword] = useState('password')
-  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
   const handleSignIn = async (e: React.FormEvent) => {
@@ -29,11 +29,18 @@ export default function SignIn() {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password)
       const user = userCredential.user
+
+      // Get user data from Firestore
+      const userDoc = await getDoc(doc(db, 'users', user.uid))
+      const userData = userDoc.data()
+
       localStorage.setItem('user', JSON.stringify({
-        name: user.displayName || email.split('@')[0],
+        name: userData?.firstName ? `${userData.firstName} ${userData.lastName}` : email.split('@')[0],
         email: user.email,
+        phoneNumber: userData?.phoneNumber || '',
         photoURL: user.photoURL || '/images/default-avatar.png'
       }))
+      
       router.push('/courses/bellair/home')
     } catch (err: unknown) {
       if (err && typeof err === 'object' && 'message' in err) {
@@ -54,14 +61,40 @@ export default function SignIn() {
       const provider = new GoogleAuthProvider()
       const result = await signInWithPopup(auth, provider)
       const user = result.user
+
+      // Check if user exists in Firestore
+      const userDoc = await getDoc(doc(db, 'users', user.uid))
+      
+      if (!userDoc.exists()) {
+        // Store temporary user data
+        localStorage.setItem('tempUserData', JSON.stringify({
+          uid: user.uid,
+          firstName: user.displayName?.split(' ')[0] || '',
+          lastName: user.displayName?.split(' ').slice(1).join(' ') || '',
+          email: user.email,
+          photoURL: user.photoURL
+        }))
+        
+        // Redirect to complete profile page
+        router.push('/courses/bellair/complete-profile')
+        return
+      }
+
+      // Existing user - store data and redirect to home
       localStorage.setItem('user', JSON.stringify({
         name: user.displayName,
         email: user.email,
+        phoneNumber: userDoc.data().phoneNumber,
         photoURL: user.photoURL
       }))
+
       router.push('/courses/bellair/home')
-    } catch (err: any) {
-      setError(err.message || 'Failed to sign in with Google')
+    } catch (err: unknown) {
+      if (err && typeof err === 'object' && 'message' in err) {
+        setError((err as FirebaseError).message)
+      } else {
+        setError('Failed to sign in with Google')
+      }
     } finally {
       setIsLoading(false)
     }
@@ -200,7 +233,7 @@ export default function SignIn() {
             className={`w-full bg-[#00A6B2] text-white py-4 rounded-[32px] font-medium text-base 
               ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
           >
-            {isLoading ? 'Signing in...' : 'Sign In'}
+            {isLoading ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : 'Sign In'}
           </motion.button>
 
           {/* Google Sign In */}

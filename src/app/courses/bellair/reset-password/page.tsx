@@ -3,20 +3,25 @@ import Link from 'next/link'
 import { ArrowLeft, Mail } from 'lucide-react'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { auth } from '@/lib/firebase/config'
+import { sendPasswordResetEmail } from 'firebase/auth'
 
 export default function ResetPassword() {
   const [email, setEmail] = useState('')
   const [showPopup, setShowPopup] = useState(false)
   const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
+    setIsLoading(true)
 
     // Validate email
     if (!email) {
       setError('Please enter your email address')
+      setIsLoading(false)
       return
     }
 
@@ -24,16 +29,27 @@ export default function ResetPassword() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(email)) {
       setError('Please enter a valid email address')
+      setIsLoading(false)
       return
     }
 
-    // Show popup
-    setShowPopup(true)
-
-    // Redirect after 3 seconds
-    setTimeout(() => {
-      router.push('/courses/bellair/signin')
-    }, 3000)
+    try {
+      await sendPasswordResetEmail(auth, email)
+      setShowPopup(true)
+      
+      // Redirect after 3 seconds
+      setTimeout(() => {
+        router.push('/courses/bellair/signin')
+      }, 3000)
+    } catch (error: any) {
+      if (error.code === 'auth/user-not-found') {
+        setError('No account found with this email address')
+      } else {
+        setError('Failed to send reset email. Please try again.')
+      }
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -78,9 +94,11 @@ export default function ResetPassword() {
         <div className="fixed bottom-8 left-0 right-0 w-full max-w-[430px] mx-auto px-6">
           <button
             onClick={handleSubmit}
-            className="w-full bg-[#00A6B2] text-white py-4 rounded-[32px] font-medium text-base"
+            disabled={isLoading}
+            className={`w-full bg-[#00A6B2] text-white py-4 rounded-[32px] font-medium text-base
+              ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
           >
-            Continue
+            {isLoading ? 'Sending...' : 'Continue'}
           </button>
         </div>
 
@@ -90,7 +108,7 @@ export default function ResetPassword() {
             <div className="bg-white rounded-lg p-6 mx-4 max-w-sm w-full shadow-lg">
               <h3 className="text-lg font-semibold mb-2">Check Your Email</h3>
               <p className="text-gray-600">
-                We've sent instructions to reset your password. Please check your email.
+                We've sent instructions to reset your password to {email}. Please check your email.
               </p>
             </div>
           </div>
