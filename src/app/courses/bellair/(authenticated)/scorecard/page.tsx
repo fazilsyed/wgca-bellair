@@ -45,6 +45,23 @@ interface PreviousScorecard {
   totalPar: number;
 }
 
+// Example data - this could later be replaced with data from your backend
+const previousScorecards: PreviousScorecard[] = [
+  {
+    id: '1',
+    date: new Date('2024-12-11'),
+    totalScore: 87,
+    totalPar: 72
+  },
+  {
+    id: '2',
+    date: new Date('2024-12-11'),
+    totalScore: 82,
+    totalPar: 72
+  },
+  // ... more scorecards
+]
+
 export default function ScorecardPage() {
   const router = useRouter()
   const [userData, setUserData] = useState<UserData | null>(null)
@@ -158,6 +175,8 @@ export default function ScorecardPage() {
       year: 'numeric'
     })
   }
+
+  const [notes, setNotes] = useState('')
 
   return (
     <motion.div
@@ -292,26 +311,35 @@ export default function ScorecardPage() {
 
                       <div className="relative h-full">
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="flex items-center gap-3">
-                            <button 
-                              onClick={() => updateHoleScore(hole.number, false)}
-                              className="w-10 h-10 flex items-center justify-center border border-gray-200 rounded-lg hover:bg-gray-100"
-                            >
-                              <Minus className="w-5 h-5" />
-                            </button>
-                            <span className="w-6 text-center text-lg font-medium">{hole.score}</span>
-                            <button 
-                              onClick={() => updateHoleScore(hole.number, true)}
-                              className="w-10 h-10 flex items-center justify-center border border-gray-200 rounded-lg hover:bg-gray-100"
-                            >
-                              <Plus className="w-5 h-5" />
-                            </button>
-                            <div className="w-8 text-center text-lg ml-3">
-                              {hole.score > hole.par 
-                                ? `+${hole.score - hole.par}`
-                                : hole.score < hole.par && hole.score > 0
-                                  ? hole.score - hole.par
-                                  : '0'}
+                          <div className="flex items-center gap-6">
+                            {/* Score Entry */}
+                            <div className="flex items-center justify-between w-full">
+                              <div className="flex items-center gap-2">
+                                <button 
+                                  onClick={() => updateHoleScore(hole.number, false)}
+                                  className="text-gray-400 text-5xl font-light w-12 h-12 flex items-center justify-center hover:text-gray-600 -mt-1"
+                                  aria-label="Decrease score"
+                                >
+                                  -
+                                </button>
+                                <span className="text-3xl font-medium w-8 text-center">
+                                  {hole.score}
+                                </span>
+                                <button 
+                                  onClick={() => updateHoleScore(hole.number, true)}
+                                  className="text-gray-400 text-5xl font-light w-12 h-12 flex items-center justify-center hover:text-gray-600 -mt-1"
+                                  aria-label="Increase score"
+                                >
+                                  +
+                                </button>
+                              </div>
+                              <div className="w-[40px] text-center ml-4">
+                                {hole.score > hole.par 
+                                  ? <span className="text-red-500">+{hole.score - hole.par}</span>
+                                  : hole.score < hole.par && hole.score > 0
+                                    ? <span className="text-green-500">{hole.score - hole.par}</span>
+                                    : '0'}
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -320,12 +348,29 @@ export default function ScorecardPage() {
                   ))}
                 </div>
 
+                {/* Notes Section */}
+                <div className="px-4 mb-6">
+                  <div className="space-y-2">
+                    <textarea
+                      value={notes}
+                      onChange={(e) => setNotes(e.target.value)}
+                      placeholder="Add notes to your round"
+                      className="w-full p-4 rounded-lg bg-gray-50 min-h-[100px] resize-none focus:outline-none focus:ring-1 focus:ring-[#00A6B2]"
+                    />
+                    <p className="text-sm text-gray-500 px-1">
+                      Remember things you learned for next time!
+                    </p>
+                  </div>
+                </div>
+
                 {/* Date and Save Button */}
                 <div className="flex justify-between items-center px-4 mb-24">
                   <div className="flex items-center gap-2 text-gray-500">
                     <span>December 15, 2024</span>
                   </div>
-                  <button className="bg-[#00A6B2] text-white px-6 py-2 rounded-full">
+                  <button 
+                    className="bg-[#00A6B2] text-white px-8 py-2 rounded-full hover:bg-[#008c96] transition-colors"
+                  >
                     Save
                   </button>
                 </div>
@@ -338,25 +383,26 @@ export default function ScorecardPage() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}
+              className="px-4 space-y-3 mb-24"
             >
-              {/* Previous scorecards list */}
-              <div className="px-4 space-y-3 mb-24">
-                {previousScorecards.map((scorecard) => (
-                  <motion.div
-                    key={scorecard.id}
-                    className="flex items-center justify-between bg-gray-50 rounded-lg p-4"
-                    whileHover={{ scale: 1.01 }}
-                    transition={{ duration: 0.2 }}
+              {previousScorecards.map((scorecard) => (
+                <motion.div
+                  key={scorecard.id}
+                  className="flex items-center justify-between bg-gray-50 rounded-lg p-4"
+                  whileHover={{ scale: 1.01 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <span className="text-gray-600">
+                    {formatDate(scorecard.date)}
+                  </span>
+                  <button 
+                    onClick={() => router.push(`/courses/bellair/scorecard/${scorecard.id}`)}
+                    className="text-[#00A6B2] hover:text-[#008c96] transition-colors"
                   >
-                    <span className="text-gray-600">
-                      {formatDate(scorecard.date)}
-                    </span>
-                    <button className="text-[#00A6B2]">
-                      <Eye className="w-5 h-5" />
-                    </button>
-                  </motion.div>
-                ))}
-              </div>
+                    <Eye className="w-5 h-5" />
+                  </button>
+                </motion.div>
+              ))}
             </motion.div>
           )}
         </AnimatePresence>

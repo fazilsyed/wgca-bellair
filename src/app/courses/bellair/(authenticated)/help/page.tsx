@@ -8,7 +8,7 @@ import Sidebar from '@/components/Sidebar'
 import { useRouter } from 'next/navigation'
 import BottomNavigation from '@/components/BottomNavigation'
 
-type TabType = 'info' | 'faqs' | 'contact'
+type TabType = 'info' | 'faqs' | 'rules' | 'contact'
 
 // Separate component for content that uses useSearchParams
 function HelpContent() {
@@ -61,6 +61,19 @@ function HelpContent() {
     }
   ]
 
+  const rules = [
+    "Proper golf attire required at all times",
+    "Keep carts on paths around tees and greens",
+    "Replace divots and repair ball marks",
+    "Rake bunkers after use",
+    "Maximum of 4 players per group",
+    "Each player must have their own set of clubs",
+    "Follow cart signs and daily cart rules",
+    "Maintain pace of play",
+    "No outside food or beverages",
+    "Follow starter's instructions"
+  ]
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -109,10 +122,12 @@ function HelpContent() {
               left: activeTab === 'info' 
                 ? '1%' 
                 : activeTab === 'faqs' 
-                  ? '34%' 
-                  : '67%'
+                  ? '26%' 
+                  : activeTab === 'rules'
+                    ? '51%'
+                    : '76%'
             }}
-            style={{ width: '31%' }}
+            style={{ width: '23%' }}
             transition={{ type: 'spring', bounce: 0.15, duration: 0.3 }}
           />
           <button
@@ -130,6 +145,14 @@ function HelpContent() {
             }`}
           >
             FAQs
+          </button>
+          <button
+            onClick={() => setActiveTab('rules')}
+            className={`relative flex-1 py-1.5 text-center z-10 ${
+              activeTab === 'rules' ? 'text-white' : 'text-gray-600'
+            }`}
+          >
+            Rules
           </button>
           <button
             onClick={() => setActiveTab('contact')}
@@ -228,6 +251,31 @@ function HelpContent() {
                   </AnimatePresence>
                 </motion.div>
               ))}
+            </motion.div>
+          )}
+
+          {activeTab === 'rules' && (
+            <motion.div
+              key="rules"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="px-4"
+            >
+              <ul className="space-y-4">
+                {rules.map((rule, index) => (
+                  <motion.li
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="flex items-start gap-3"
+                  >
+                    <span className="text-[#00A6B2] text-lg mt-0.5">•</span>
+                    <span className="text-gray-600">{rule}</span>
+                  </motion.li>
+                ))}
+              </ul>
             </motion.div>
           )}
 

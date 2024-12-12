@@ -14,13 +14,13 @@ interface Event {
   description: string;
   image: string;
   date: string;
-  type: 'tournament' | 'event';
+  type: 'tournament' | 'event' | 'private';
 }
 
 export default function EventsPage() {
   const router = useRouter()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const [activeFilter, setActiveFilter] = useState<'all' | 'event' | 'tournament'>('all')
+  const [activeFilter, setActiveFilter] = useState<'all' | 'event' | 'tournament' | 'private'>('all')
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -73,6 +73,22 @@ export default function EventsPage() {
       image: '/images/events.webp',
       date: 'Sat 12/14/24',
       type: 'tournament'
+    },
+    {
+      id: '5',
+      title: 'Corporate Golf Day',
+      description: 'Private corporate event with exclusive course access and catering.',
+      image: '/images/events.webp',
+      date: 'Sat 12/14/24',
+      type: 'private'
+    },
+    {
+      id: '6',
+      title: 'Member-Guest Tournament',
+      description: 'Exclusive tournament for members and their invited guests.',
+      image: '/images/events.webp',
+      date: 'Sat 12/14/24',
+      type: 'private'
     }
   ]
 
@@ -128,11 +144,11 @@ export default function EventsPage() {
         {/* Filter Tabs */}
         <motion.div 
           variants={itemVariants}
-          className="flex gap-2 px-4 mb-6"
+          className="flex gap-2 px-4 mb-6 overflow-x-auto pb-2"
         >
           <button
             onClick={() => setActiveFilter('all')}
-            className={`px-4 py-2 rounded-full ${
+            className={`px-4 py-2 rounded-full whitespace-nowrap ${
               activeFilter === 'all' 
                 ? 'bg-[#00A6B2] text-white' 
                 : 'border border-gray-200'
@@ -142,7 +158,7 @@ export default function EventsPage() {
           </button>
           <button
             onClick={() => setActiveFilter('event')}
-            className={`px-4 py-2 rounded-full border ${
+            className={`px-4 py-2 rounded-full border whitespace-nowrap ${
               activeFilter === 'event' 
                 ? 'bg-[#00A6B2] text-white' 
                 : 'border-gray-200'
@@ -152,13 +168,23 @@ export default function EventsPage() {
           </button>
           <button
             onClick={() => setActiveFilter('tournament')}
-            className={`px-4 py-2 rounded-full border ${
+            className={`px-4 py-2 rounded-full border whitespace-nowrap ${
               activeFilter === 'tournament' 
                 ? 'bg-[#00A6B2] text-white' 
                 : 'border-gray-200'
             }`}
           >
             Tournaments
+          </button>
+          <button
+            onClick={() => setActiveFilter('private')}
+            className={`px-4 py-2 rounded-full border whitespace-nowrap ${
+              activeFilter === 'private' 
+                ? 'bg-[#00A6B2] text-white' 
+                : 'border-gray-200'
+            }`}
+          >
+            Private
           </button>
         </motion.div>
 

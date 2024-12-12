@@ -5,6 +5,7 @@ import { ArrowLeft, Menu } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import Sidebar from '@/components/Sidebar'
 import { motion, AnimatePresence } from 'framer-motion'
+import BottomNavigation from '@/components/BottomNavigation'
 
 interface HoleInfo {
   holeNumber: number;
@@ -32,7 +33,7 @@ export default function CourseMapPage() {
         white: 179,
         blue: 195,
       },
-      description: "A long par 4 with a dog leg to the right. You can tee straight for a lay up, or over the trees to gain some yards. The fairway has 3 bunkers on the left, and a water hazard on the right. The putting green slopes north and is considered faster than average.",
+      description: "A long par 4 with a dog leg right. Three bunkers guard the left fairway with water on the right. Green slopes north.",
       imageUrl: "/images/holes/aerial-hole-1.png"
     },
     {
@@ -43,7 +44,7 @@ export default function CourseMapPage() {
         white: 340,
         blue: 360,
       },
-      description: "Straight par 4 with bunkers guarding both sides of the fairway. The green is elevated and protected by deep bunkers in front.",
+      description: "Straight par 4 with fairway bunkers on both sides. Elevated green protected by deep front bunkers.",
       imageUrl: "/images/holes/aerial-hole-2.png"
     },
     {
@@ -54,7 +55,7 @@ export default function CourseMapPage() {
         white: 485,
         blue: 510,
       },
-      description: "Long par 5 with a slight dogleg left. Water hazard runs along the left side. The green is well-protected by bunkers on both sides.",
+      description: "Long par 5 with slight dogleg left. Water hazard runs along left side with bunkers protecting the green.",
       imageUrl: "/images/holes/aerial-hole-3.png"
     },
     {
@@ -65,7 +66,7 @@ export default function CourseMapPage() {
         white: 165,
         blue: 185,
       },
-      description: "Short par 3 over water. The green is surrounded by bunkers, making accuracy crucial.",
+      description: "Short par 3 over water. Green surrounded by strategic bunker placement requires precise shot.",
       imageUrl: "/images/holes/aerial-hole-4.png"
     },
     {
@@ -76,7 +77,7 @@ export default function CourseMapPage() {
         white: 370,
         blue: 390,
       },
-      description: "Dogleg right par 4. Strategic bunker placement requires careful tee shot placement.",
+      description: "Dogleg right par 4. Strategic bunker placement demands careful tee shot positioning.",
       imageUrl: "/images/holes/aerial-hole-5.png"
     },
     {
@@ -87,7 +88,7 @@ export default function CourseMapPage() {
         white: 350,
         blue: 370,
       },
-      description: "Straight par 4 with a narrow fairway. The green is protected by bunkers on both sides.",
+      description: "Straight par 4 featuring narrow fairway. Green protected by bunkers on both sides.",
       imageUrl: "/images/holes/aerial-hole-6.png"
     },
     {
@@ -98,7 +99,7 @@ export default function CourseMapPage() {
         white: 175,
         blue: 195,
       },
-      description: "Challenging par 3 with water on the right. The green slopes from back to front.",
+      description: "Challenging par 3 with water right. Back to front sloping green tests putting skills.",
       imageUrl: "/images/holes/aerial-hole-7.png"
     },
     {
@@ -109,7 +110,7 @@ export default function CourseMapPage() {
         white: 495,
         blue: 520,
       },
-      description: "Long par 5 with water hazard crossing the fairway. The green is large but well-guarded.",
+      description: "Long par 5 with water crossing fairway. Large but well-protected green requires accurate approach.",
       imageUrl: "/images/holes/aerial-hole-8.png"
     },
     {
@@ -120,7 +121,7 @@ export default function CourseMapPage() {
         white: 360,
         blue: 380,
       },
-      description: "Finishing hole for the front nine. Slight dogleg left with bunkers protecting the green.",
+      description: "Front nine closer with slight dogleg left. Multiple bunkers guard the putting surface.",
       imageUrl: "/images/holes/aerial-hole-9.png"
     },
     {
@@ -131,7 +132,7 @@ export default function CourseMapPage() {
         white: 365,
         blue: 385,
       },
-      description: "Starting the back nine with a straightaway par 4. Bunkers guard both sides of the fairway.",
+      description: "Straight par 4 opening back nine. Fairway bunkers on both sides require accurate drive.",
       imageUrl: "/images/holes/aerial-hole-10.png"
     },
     {
@@ -142,7 +143,7 @@ export default function CourseMapPage() {
         white: 170,
         blue: 190,
       },
-      description: "Beautiful par 3 with water in front of the green. Multiple tee boxes offer different angles.",
+      description: "Scenic par 3 with water fronting green. Multiple tee boxes offer varying challenges.",
       imageUrl: "/images/holes/aerial-hole-11.png"
     },
     {
@@ -153,7 +154,7 @@ export default function CourseMapPage() {
         white: 500,
         blue: 525,
       },
-      description: "Long par 5 with a risk-reward second shot. The green is protected by water on the right.",
+      description: "Risk-reward par 5 with water right of green. Second shot positioning crucial for scoring.",
       imageUrl: "/images/holes/aerial-hole-12.png"
     },
     {
@@ -164,7 +165,7 @@ export default function CourseMapPage() {
         white: 355,
         blue: 375,
       },
-      description: "Dogleg right par 4. Accurate tee shot placement is crucial for approach to the green.",
+      description: "Dogleg right par 4. Precise tee shot required for optimal approach angle.",
       imageUrl: "/images/holes/aerial-hole-13.png"
     },
     {
@@ -175,7 +176,7 @@ export default function CourseMapPage() {
         white: 345,
         blue: 365,
       },
-      description: "Straight par 4 with well-placed bunkers along the fairway. The green slopes from back to front.",
+      description: "Straight par 4 with strategic fairway bunkers. Green slopes back to front.",
       imageUrl: "/images/holes/aerial-hole-14.png"
     },
     {
@@ -186,7 +187,7 @@ export default function CourseMapPage() {
         white: 180,
         blue: 200,
       },
-      description: "Challenging par 3 with a large green protected by deep bunkers.",
+      description: "Challenging par 3 featuring large green. Deep bunkers protect all sides.",
       imageUrl: "/images/holes/aerial-hole-15.png"
     },
     {
@@ -197,7 +198,7 @@ export default function CourseMapPage() {
         white: 490,
         blue: 515,
       },
-      description: "Strategic par 5 with water hazard in play for the second shot. The green is well-protected by bunkers.",
+      description: "Strategic par 5 with water hazard in play. Bunkers guard well-protected green complex.",
       imageUrl: "/images/holes/aerial-hole-16.png"
     },
     {
@@ -208,7 +209,7 @@ export default function CourseMapPage() {
         white: 350,
         blue: 370,
       },
-      description: "Dogleg left par 4. Careful tee shot placement needed to avoid fairway bunkers.",
+      description: "Dogleg left par 4. Fairway bunkers demand careful tee shot placement.",
       imageUrl: "/images/holes/aerial-hole-17.png"
     },
     {
@@ -219,7 +220,7 @@ export default function CourseMapPage() {
         white: 375,
         blue: 395,
       },
-      description: "Finishing hole with water along the right side. The green is protected by bunkers and slopes from back to front.",
+      description: "Finishing hole with water right. Green slopes back to front with protective bunkers.",
       imageUrl: "/images/holes/aerial-hole-18.png"
     }
   ]
@@ -252,7 +253,7 @@ export default function CourseMapPage() {
           </button>
         </motion.div>
 
-        <div className="px-6">
+        <div className="px-6 pb-24">
           {/* Hole Information */}
           <AnimatePresence mode="wait">
             <motion.div 
@@ -280,12 +281,32 @@ export default function CourseMapPage() {
             >
               <p className="text-sm">
                 Tees: 
-                <span className="text-red-500"> {currentHoleInfo.tees.red}y</span> | 
-                <span className="text-gray-600"> {currentHoleInfo.tees.white}y</span> | 
-                <span className="text-blue-500"> {currentHoleInfo.tees.blue}y</span>
+                <span className="text-gray-400"> {currentHoleInfo.tees.red}y</span> | 
+                <span className="text-black"> {currentHoleInfo.tees.white}y</span>
               </p>
             </motion.div>
           </AnimatePresence>
+
+          {/* Navigation Buttons - Moved above image */}
+          <motion.div 
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="flex gap-4 mb-6"
+          >
+            <button
+              onClick={handlePreviousHole}
+              className="flex-1 py-3 rounded-lg bg-[#E8F7F7] text-[#00A6B2] transition-colors hover:bg-[#d0f1f1]"
+            >
+              Previous
+            </button>
+            <button
+              onClick={handleNextHole}
+              className="flex-1 py-3 rounded-lg bg-[#00A6B2] text-white transition-colors hover:bg-[#008c96]"
+            >
+              Next
+            </button>
+          </motion.div>
 
           {/* Hole Image */}
           <AnimatePresence mode="wait">
@@ -295,7 +316,7 @@ export default function CourseMapPage() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.3, delay: 0.2 }}
-              className="relative w-full aspect-square mb-6 rounded-lg overflow-hidden bg-white"
+              className="relative w-2/3 aspect-square mb-6 rounded-lg overflow-hidden bg-white mx-auto"
             >
               <Image
                 src={currentHoleInfo.imageUrl}
@@ -321,27 +342,6 @@ export default function CourseMapPage() {
             </motion.p>
           </AnimatePresence>
 
-          {/* Navigation Buttons */}
-          <motion.div 
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="flex gap-4 mb-8"
-          >
-            <button
-              onClick={handlePreviousHole}
-              className="flex-1 py-3 rounded-lg bg-[#E8F7F7] text-[#00A6B2] transition-colors hover:bg-[#d0f1f1]"
-            >
-              Previous Hole
-            </button>
-            <button
-              onClick={handleNextHole}
-              className="flex-1 py-3 rounded-lg bg-[#00A6B2] text-white transition-colors hover:bg-[#008c96]"
-            >
-              Next Hole
-            </button>
-          </motion.div>
-
           {/* Progress Indicator */}
           <motion.div 
             initial={{ scaleX: 0 }}
@@ -355,6 +355,8 @@ export default function CourseMapPage() {
           isOpen={isSidebarOpen} 
           onClose={() => setIsSidebarOpen(false)} 
         />
+
+        <BottomNavigation />
       </div>
     </div>
   )
