@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WGolf - Your AI Golf Caddy</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="./images/whispering-golf-favicon.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Replace the Font Awesome script in head with this -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Add Open Graph meta tags for social sharing -->
+    <meta property="og:title" content="WGolf - Your AI Golf Caddy">
+    <meta property="og:description" content="Let your guests experience all of your services in a single app. Order food, drinks, pro shop items, manage tee times, a digital scorecard and more!">
+    <meta property="og:image" content="./images/sharing-image.png">
+    <meta property="og:type" content="website">
+    
+    <!-- Add Twitter Card meta tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="WGolf - Your AI Golf Caddy">
+    <meta name="twitter:description" content="Let your guests experience all of your services in a single app. Order food, drinks, pro shop items, manage tee times, a digital scorecard and more!">
+    <meta name="twitter:image" content="./images/sharing-image.png">
+    
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Header styles */
+        .header {
+            position: fixed;
+            width: 100%;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, 
+                rgba(0, 0, 0, 0.9) 0%,    /* Increased from 0.7 to 0.9 for darker top */
+                rgba(0, 0, 0, 0) 100%);   /* Keeping bottom transparent */
+            z-index: 1000;
+        }
+
+        .logo {
+            height: 3rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-links a:hover {
+            color: #4CAF50;
+        }
+
+        .waitlist-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .waitlist-btn:hover {
+            background: #45a049;
+        }
+
+        /* Hero section styles */
+        .hero {
+            position: relative;
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                        url('./images/wgolf-app-hero-background.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            padding: 0 4rem;
+            justify-content: flex-start;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: white;
+            max-width: 800px;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2.5rem;
+            line-height: 1.5;
+            max-width: 600px;
+        }
+
+        .hero-cta {
+            background: #4CAF50;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: background 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        .hero-cta:hover {
+            background: #45a049;
+        }
+
+        /* Update the intro section styles */
+        .intro-section {
+            padding: 8rem 4rem;
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Update container to be 2/3 width and centered */
+        .intro-container {
+            max-width: 66.666%;  /* Makes container 2/3 of page width */
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 6rem;
+        }
+
+        /* Update video container styles */
+        .intro-video-container {
+            flex: 0.5;
+            height: auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .intro-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Update content container styles */
+        .intro-content {
+            flex: 1.5;
+        }
+
+        /* Update existing text styles to remove center alignment */
+        .intro-headline {
+            text-align: left;
+            color: #1a1a1a;
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            position: relative;
+            padding-bottom: 1.25rem;
+            line-height: 1.2;
+        }
+
+        /* Update underline position for left alignment */
+        .intro-headline::after {
+            left: 0;
+            transform: none;
+        }
+
+        .intro-subheadline {
+            text-align: left;
+            color: #4a4a4a;
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            line-height: 1.4;
+        }
+
+        .intro-text {
+            max-width: none;  /* Remove max-width constraint */
+            margin: 0 0 2rem;  /* Remove auto margins, adjust bottom spacing */
+            color: #666;
+            font-size: 1.125rem;
+            line-height: 1.7;
+        }
+
+        .intro-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .intro-cta {
+            display: inline-block;  /* Change from block to inline-block */
+            width: fit-content;
+            margin: 1rem 0 0;  /* Remove auto margins */
+            padding: 1rem 2.5rem;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .intro-cta:hover {
+            background: #218838;
+        }
+
+        /* Add these new styles */
+        .features-section {
+            background-color: #f0eeec;
+            padding: 12rem 0;
+            margin-top: 0;
+            position: relative;
+        }
+
+        .features-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 2rem;
+        }
+
+        .features-header {
+            margin-bottom: 5rem;
+        }
+
+        .features-title {
+            color: #1a1a1a;
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            line-height: 1.2;
+        }
+
+        .features-subtitle {
+            color: #666;
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);  /* Force 4 columns */
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 0.75rem;  /* Reduced from 1rem if needed */
+        }
+
+        .feature-icon {
+            background: #4a4a4a;
+            color: white;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.25rem;
+        }
+
+        .feature-title {
+            color: #333;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0;
+        }
+
+        .features-cta {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 3rem;
+            transition: background 0.3s ease;
+        }
+
+        .features-cta:hover {
+            background: #218838;
+        }
+
+        /* How It Works section styles */
+        .how-it-works-section {
+            padding: 8rem 4rem;
+            background: white;
+        }
+
+        .how-container {
+            max-width: 66.666%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 6rem;
+        }
+
+        .how-content {
+            flex: 1;
+        }
+
+        .how-headline {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 3rem;
+            line-height: 1.2;
+        }
+
+        .steps .step {
+            display: none;
+            margin-bottom: 2rem;
+        }
+
+        .steps .step.active {
+            display: block;
+        }
+
+        .step h3 {
+            font-size: 1.5rem;
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+
+        .step p {
+            font-size: 1.125rem;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        /* Carousel styles */
+        .carousel-container {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .carousel {
+            background: transparent;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 9/16;
+            width: 100%;
+            position: relative;
+        }
+
+        .carousel-item {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        .carousel-item.active {
+            display: block;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .carousel-button {
+            background: #28a745;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            color: white;
+            transition: all 0.3s ease;
+            padding: 0;
+            min-width: 44px;
+            min-height: 44px;
+        }
+
+        .carousel-button:hover {
+            background: #218838;
+            color: white;
+        }
+
+        /* Optionally adjust icon size if needed */
+        .carousel-button i {
+            font-size: 1rem;
+        }
+
+        /* Add new style for the subtext */
+        .headline-subtext {
+            display: block;
+            font-size: 1.5rem;
+            margin-top: 0.5rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .section-curve {
+            position: absolute;
+            bottom: -1px;  /* Ensure no gap between sections */
+            left: 0;
+            width: 100%;
+            height: auto;
+            z-index: 1;
+        }
+
+        /* Add styles for top and bottom curves */
+        .section-curve-top {
+            position: absolute;
+            top: -1px;
+            left: 0;
+            width: 100%;
+            height: auto;
+            transform: scaleY(-1);  /* Only flip vertically */
+        }
+
+        .section-curve-bottom {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: auto;
+        }
+
+        /* AI Buddy section styles */
+        .ai-buddy-section {
+            background-color: #f0eeec;
+            padding: 12rem 0;
+            margin-top: 0;
+            position: relative;
+        }
+
+        .ai-buddy-container {
+            max-width: 66.666%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 6rem;
+        }
+
+        .ai-buddy-iframe-container {
+            flex: 0.8;
+            height: 700px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .ai-buddy-content {
+            flex: 1.2;
+        }
+
+        .ai-buddy-headline {
+            text-align: left;
+            color: #1a1a1a;
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            position: relative;
+            padding-bottom: 1.25rem;
+            line-height: 1.2;
+        }
+
+        .ai-buddy-text {
+            margin: 0 0 2rem;
+            color: #666;
+            font-size: 1.125rem;
+            line-height: 1.7;
+        }
+
+        .ai-buddy-cta {
+            display: inline-block;
+            width: fit-content;
+            margin: 1rem 0 0;
+            padding: 1rem 2.5rem;
+            background: transparent;
+            color: #4a4a4a;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            border: 2px solid #4a4a4a;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .ai-buddy-cta:hover {
+            background: transparent;
+        }
+
+        /* Waitlist section styles */
+        .waitlist-section {
+            padding: 8rem 0;
+            background: white;
+            text-align: center;
+        }
+
+        .waitlist-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .waitlist-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #1a1a1a;
+        }
+
+        .waitlist-subtitle {
+            font-size: 1.25rem;
+            color: #666;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .google-form-container {
+            width: 100%;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        /* Update footer styles */
+        .footer {
+            background-color: #2a2a2a;
+            padding: 4rem 4rem;
+            position: relative;
+        }
+
+        .footer-curve {
+            position: absolute;
+            top: -1px;
+            left: 0;
+            width: 100%;
+            height: auto;
+            transform: scaleY(-1);
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 60px 0 25px;
+        }
+
+        .footer-logo {
+            height: 3rem;
+        }
+
+        .footer-links {
+            color: white;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        /* Base animation classes */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Stagger child animations */
+        .stagger-children > * {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        .stagger-children.visible > * {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-children.visible > *:nth-child(1) { transition-delay: 0.1s; }
+        .stagger-children.visible > *:nth-child(2) { transition-delay: 0.2s; }
+        .stagger-children.visible > *:nth-child(3) { transition-delay: 0.3s; }
+        .stagger-children.visible > *:nth-child(4) { transition-delay: 0.4s; }
+
+        /* Scale animation for features */
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Smooth section transitions */
+        section {
+            transition: opacity 0.3s ease-out;
+        }
+
+        /* Smooth image/video loading */
+        img, video {
+            transition: opacity 0.3s ease-out;
+        }
+
+        /* Add smooth transitions to all interactive elements */
+        a, button {
+            transition: all 0.3s ease-out;
+        }
+
+        /* Mobile menu styles */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            /* Header adjustments */
+            .header {
+                padding: 1rem 1.5rem;
+            }
+
+            .logo {
+                height: 2rem;  /* Smaller logo */
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                height: 100vh;
+                width: 80%;
+                max-width: 300px;
+                background: rgba(0, 0, 0, 0.95);
+                flex-direction: column;
+                padding: 5rem 2rem;
+                transition: right 0.3s ease;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            /* Hero adjustments */
+            .hero {
+                padding: 0 1.5rem;
+                text-align: center;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            /* Container width adjustments */
+            .intro-container,
+            .how-container,
+            .ai-buddy-container {
+                max-width: 100%;
+                padding: 0 1.5rem;
+                flex-direction: column;
+                gap: 3rem;
+            }
+
+            /* Features grid adjustments */
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            /* Section padding adjustments */
+            .intro-section,
+            .features-section,
+            .how-it-works-section,
+            .ai-buddy-section,
+            .waitlist-section {
+                padding: 4rem 0;
+            }
+
+            /* Form adjustments */
+            .form-row {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            /* Footer adjustments */
+            .footer {
+                padding: 2rem 1.5rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        .logo-link {
+            display: block;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo-link">
+            <img src="./images/wgolf-app-white.png" alt="WGolf Logo" class="logo">
+        </a>
+        <button class="mobile-menu-btn">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <nav class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#ai-caddy">AI Golf Buddy</a>
+            <a href="#waitlist" class="waitlist-btn">Join The Waitlist</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content fade-up">
+            <h1>Your Amazing Golf Course, Deserves an Amazing Mobile App</h1>
+            <p>Let your guests experience all of your services in a single app. Order food, drinks, pro shop items, manage tee times, a digital scorecard and more!</p>
+            <a href="#intro" class="hero-cta">Learn More</a>
+        </div>
+        <img src="./images/bkgd-curve-white.svg" alt="" class="section-curve">
+    </section>
+
+    <section class="intro-section" id="intro">
+        <div class="intro-container">
+            <div class="intro-video-container fade-up">
+                <video class="intro-video" autoplay loop muted playsinline>
+                    <source src="./videos/bellair-demo-alpha.mp4" type="video/mp4">
+                </video>
+            </div>
+            
+            <div class="intro-content fade-up" style="transition-delay: 0.2s;">
+                <h2 class="intro-headline">Allow Your Guests to Access All of your services at once
+                    <span class="headline-subtext">No additional software required.</span>
+                </h2>
+                <p class="intro-text">Streamline operations and provide easier access to guest experiences which will drive more revenue and engagement. WGolf is a customer portal that connects all your existing systems—tee times, food orders, and more—without changing how you manage them. It makes booking and purchasing effortless for guests, boosting sales while taking less than two weeks to set up. No new systems, just seamless integration.</p>
+                <a href="#waitlist" class="intro-cta">Join the Waitlist Today</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add the new section -->
+    <section class="features-section" id="features">
+        <img src="./images/bkgd-curve-white.svg" alt="" class="section-curve-top">
+        <div class="features-container">
+            <div class="features-header fade-up">
+                <h2 class="features-title">All of These Services in One App!
+                    <span class="headline-subtext">But without the App Store fees and delays.</span>
+                </h2>
+            </div>
+
+            <div class="features-grid stagger-children">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-calendar"></i>
+                    </div>
+                    <h3 class="feature-title">Tee Times</h3>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-flag"></i>
+                    </div>
+                    <h3 class="feature-title">Range Services</h3>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-utensils"></i>
+                    </div>
+                    <h3 class="feature-title">Food and Drinks</h3>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-store"></i>
+                    </div>
+                    <h3 class="feature-title">Pro Shop</h3>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-list-check"></i>
+                    </div>
+                    <h3 class="feature-title">Digital Scorecard</h3>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                    <h3 class="feature-title">AI Golf Buddy</h3>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-map-location"></i>
+                    </div>
+                    <h3 class="feature-title">Course Map</h3>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </div>
+                    <h3 class="feature-title">Event Calendar</h3>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <h3 class="feature-title">Tournaments</h3>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-cloud-sun"></i>
+                    </div>
+                    <h3 class="feature-title">Live Weather</h3>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                    </div>
+                    <h3 class="feature-title">Lessons</h3>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <h3 class="feature-title">So Easy!</h3>
+                </div>
+            </div>
+
+            <a href="#waitlist" class="features-cta">Join The Waitlist</a>
+        </div>
+        <img src="./images/bkgd-curve-white.svg" alt="" class="section-curve-bottom">
+    </section>
+
+    <!-- Add this section after the features section -->
+    <section class="how-it-works-section" id="how-it-works">
+        <div class="how-container">
+            <div class="how-content fade-up">
+                <h2 class="how-headline">How It Works</h2>
+                <div class="steps">
+                    <div class="step active" data-step="1">
+                        <h3>1. Select Services to Offer</h3>
+                        <p>Choose which services you would like to offer your guests, that best fits your property's offerings. Once the selection is made, the first version is available withing a couple of days.</p>
+                    </div>
+                    <div class="step" data-step="2">
+                        <h3>2. Connect To Your Service Providers</h3>
+                        <p>We connect each selected service, to the corresponding provider software that you use today through something called APIs that is very common in most software today.</p>
+                    </div>
+                    <div class="step" data-step="3">
+                        <h3>3. Apply Your Unique Branded Experience</h3>
+                        <p>We customize the entire app using your logos, colors, and images. We also add your course map assets, scorecard specs, and help content including contact, rules, etc.</p>
+                    </div>
+                    <div class="step" data-step="4">
+                        <h3>4. Testing and Launch Preparation</h3>
+                        <p>We will be conducting final tests, and support the launch preparation for the golf course including generating QR code signage, etc. We will also help you do a soft launch.</p>
+                    </div>
+                    <div class="step" data-step="5">
+                        <h3>5. Launch</h3>
+                        <p>Setup QR codes in safe places around the property and start letting guests use the app. We are onsite launch day making sure all is well and to lend support and answer questions.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-container fade-up" style="transition-delay: 0.2s;">
+                <button class="carousel-button prev">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                
+                <div class="carousel">
+                    <div class="carousel-item active">
+                        <img src="./images/how-it-works-01.png" alt="Pick which services to offer">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="./images/how-it-works-02.png" alt="Connect providers interface">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="./images/how-it-works-03.png" alt="Customize brand interface">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="./images/how-it-works-04.png" alt="Testing interface">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="./images/how-it-works-05.png" alt="QR code setup interface">
+                    </div>
+                </div>
+
+                <button class="carousel-button next">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add this section after the how-it-works section -->
+    <section class="ai-buddy-section" id="ai-caddy">
+        <img src="./images/bkgd-curve-white.svg" alt="" class="section-curve-top">
+        <div class="ai-buddy-container">
+            <div class="ai-buddy-iframe-container scale-in">
+                <iframe 
+                    src="https://solutions.whispering.ai/index.php?chat=cmZTa2Z1ZG1PM29vaGFQUzV0WVI5UT09Ojo5MDNhNzU3YzZhMzk4ZTNh"
+                    frameborder="0"
+                    width="100%"
+                    height="100%"
+                ></iframe>
+            </div>
+            
+            <div class="ai-buddy-content fade-up" style="transition-delay: 0.2s;">
+                <h2 class="ai-buddy-headline">Offer your guests an AI assistant that can answer any question imaginable about your golf course!
+                    <span class="headline-subtext">Can be setup and trained in a single day!</span>
+                </h2>
+                <p class="ai-buddy-text">We train our ChatGPT powered chatbots to know everything possible about your golf course. It can answer questions about services, operating hours, and even offer personalized advice to golfers while they're playing the course. We train the assistant to provide a pleasant, positiive, and on brand experience. Meet your virtual concierge.</p>
+                <span class="ai-buddy-cta">← Test Out This Live Demo Chatbot</span>
+            </div>
+        </div>
+        <img src="./images/bkgd-curve-white.svg" alt="" class="section-curve-bottom">
+    </section>
+
+    <!-- Add this section after the ai-buddy section -->
+    <section class="waitlist-section" id="waitlist">
+        <div class="waitlist-container fade-up">
+            <h2 class="waitlist-title">Join The Waitlist!</h2>
+            <p class="waitlist-subtitle">Limited spots available! We're teaming up with top golf courses in Arizona, and you could be next. Join the waitlist now to lock in your spot and get early access as we add new customers in 2025.</p>
+            
+            <div class="google-form-container">
+                <iframe 
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSfPJrNU9ptNXMo2OsAR1V9meeIiVVsrS3vedV6Nhb5hunizsQ/viewform?embedded=true" 
+                    width="100%" 
+                    height="1353" 
+                    frameborder="0" 
+                    marginheight="0" 
+                    marginwidth="0">
+                    Loading…
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <img src="./images/bkgd-curve-white.svg" alt="" class="footer-curve">
+        <div class="footer-content">
+            <img src="./images/wgolf-app-white.png" alt="WGolf Logo" class="footer-logo">
+            <div class="footer-links">
+                © 2024 Whispering AI, LLC. All rights reserved.
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/terms">Terms & Conditions</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    // Carousel functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const carousel = document.querySelector('.carousel');
+        const items = carousel.querySelectorAll('.carousel-item');
+        const steps = document.querySelectorAll('.step');
+        const prevBtn = document.querySelector('.prev');
+        const nextBtn = document.querySelector('.next');
+        let currentIndex = 0;
+
+        function showItem(index) {
+            items.forEach(item => item.classList.remove('active'));
+            steps.forEach(step => step.classList.remove('active'));
+            
+            items[index].classList.add('active');
+            steps[index].classList.add('active');
+        }
+
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + items.length) % items.length;
+            showItem(currentIndex);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % items.length;
+            showItem(currentIndex);
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.15
+        });
+
+        // Observe all animated elements
+        document.querySelectorAll('.fade-up, .scale-in, .stagger-children').forEach(el => {
+            observer.observe(el);
+        });
+    });
+
+    // Mobile menu functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        const navLinksItems = document.querySelectorAll('.nav-links a');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu when clicking a link
+        navLinksItems.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Smooth scroll to sections
+        navLinksItems.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Select all elements that should have smooth scroll (nav links and CTAs)
+        const smoothScrollLinks = document.querySelectorAll('.nav-links a, .hero-cta, .intro-cta, .features-cta');
+        
+        smoothScrollLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    });
+
+    document.querySelector('.logo-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+    </script>
+</body>
+</html>
